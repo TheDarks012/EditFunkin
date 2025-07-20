@@ -1,0 +1,216 @@
+[gd_scene load_steps=7 format=3 uid="uid://1ic8k4m4351b"]
+
+[ext_resource type="Script" uid="uid://dpj5ign13hk0a" path="res://Editors/EditorXML/Windows/StructureXML/window.gd" id="1_of8my"]
+[ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="2_qr1x6"]
+[ext_resource type="Theme" uid="uid://pei43uibngh6" path="res://Config/Theme/basic.tres" id="2_ybkrl"]
+[ext_resource type="Script" uid="uid://bbamugjo6oknb" path="res://Class/Value/IntValue.gd" id="3_of2mf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ybkrl"]
+bg_color = Color(0.133333, 0.133333, 0.133333, 1)
+
+[sub_resource type="Theme" id="Theme_lscld"]
+Panel/styles/panel = SubResource("StyleBoxFlat_ybkrl")
+
+[node name="Structure" type="Window"]
+initial_position = 1
+size = Vector2i(1024, 512)
+script = ExtResource("1_of8my")
+metadata/_edit_vertical_guides_ = [240.0, -134.0]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+theme = ExtResource("2_ybkrl")
+
+[node name="MenuBar" type="MenuBar" parent="CanvasLayer/Control/VBoxContainer/Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PopupMenu" type="PopupMenu" parent="CanvasLayer/Control/VBoxContainer/Panel/MenuBar"]
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.008
+anchor_top = 0.114
+anchor_right = 0.125
+anchor_bottom = 1.0
+offset_left = -0.192
+offset_top = 0.00999975
+grow_vertical = 2
+theme = ExtResource("2_ybkrl")
+disabled = true
+text = "Make Ghost"
+
+[node name="Structure" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Control/VBoxContainer/Structure"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme = SubResource("Theme_lscld")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/VBoxContainer/Structure/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Tree" type="Tree" parent="CanvasLayer/Control/VBoxContainer/Structure/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_ybkrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/VBoxContainer/Structure"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = -1
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+theme = ExtResource("2_ybkrl")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.10748, 0.10748, 0.10748, 1)
+
+[node name="Control" type="Control" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/Control"]
+clip_children = 2
+clip_contents = true
+layout_mode = 1
+anchor_left = 0.269043
+anchor_top = 0.125
+anchor_right = 0.730957
+anchor_bottom = 0.875
+offset_left = -59.125
+offset_top = -59.125
+offset_right = 59.125
+offset_bottom = 59.125
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+pivot_offset = Vector2(236.5, 236.5)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/Control/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.298039, 0.298039, 0.298039, 1)
+
+[node name="Tree" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_qr1x6")
+Value = NodePath("../CanvasLayer/Control/VBoxContainer/Structure/Panel/ScrollContainer/Tree")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="SpriteUbication" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_qr1x6")
+Value = NodePath("../CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/Control/Control")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="AttributeContainer" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_qr1x6")
+Value = NodePath("../CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/Panel/ScrollContainer/HBoxContainer")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="Attribute" type="Panel" parent="."]
+visible = false
+clip_contents = true
+custom_minimum_size = Vector2(200, 0)
+offset_left = 256.0
+offset_right = 456.0
+offset_bottom = 35.0
+
+[node name="Box" type="HBoxContainer" parent="Attribute"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Name" type="Label" parent="Attribute/Box"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "frameX:"
+vertical_alignment = 1
+
+[node name="Value" type="SpinBox" parent="Attribute/Box"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 0.0
+allow_greater = true
+allow_lesser = true
+editable = false
+
+[node name="IntValue" type="Node" parent="Attribute"]
+script = ExtResource("3_of2mf")
+metadata/_custom_type_script = "uid://bbamugjo6oknb"
+
+[node name="MakeGhost" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_qr1x6")
+Value = NodePath("../CanvasLayer/Control/VBoxContainer/Panel/Button")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[connection signal="close_requested" from="." to="." method="hide"]
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/Panel/Button" to="." method="MakeGhost"]
+[connection signal="item_selected" from="CanvasLayer/Control/VBoxContainer/Structure/Panel/ScrollContainer/Tree" to="." method="ItemSelect"]
+[connection signal="value_changed" from="Attribute/Box/Value" to="Attribute/IntValue" method="set_value"]

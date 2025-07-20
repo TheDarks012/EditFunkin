@@ -1,0 +1,223 @@
+[gd_scene load_steps=6 format=3 uid="uid://cjy81hjbnc807"]
+
+[ext_resource type="Script" uid="uid://844708bxsr00" path="res://EditorXML/Windows/Playanimation/window.gd" id="1_pwba2"]
+[ext_resource type="Script" uid="uid://bw8rj5ulp7ebs" path="res://Class/FlxSprite.gd" id="1_wunll"]
+[ext_resource type="Script" uid="uid://dgpinxpx3l7cu" path="res://EditorXML/Windows/Playanimation/Popup/creation.gd" id="2_ad7ch"]
+[ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="3_6nfh2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ad7ch"]
+region = Rect2(0, 0, 128, 128)
+
+[node name="Playanimation" type="Window"]
+auto_translate_mode = 1
+title = "Play Animation"
+initial_position = 1
+size = Vector2i(512, 512)
+always_on_top = true
+script = ExtResource("1_pwba2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BackgroundColor" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+color = Color(0.176237, 0.176237, 0.176237, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Container" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Config" type="Panel" parent="CanvasLayer/Container"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="MenuBar" type="MenuBar" parent="CanvasLayer/Container/Config"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Creation" type="PopupMenu" parent="CanvasLayer/Container/Config/MenuBar"]
+title = "Creation"
+size = Vector2i(156, 100)
+always_on_top = true
+item_count = 2
+item_0/text = "Create Animation"
+item_0/id = 0
+item_1/text = "Remove Animation"
+item_1/id = 1
+script = ExtResource("2_ad7ch")
+
+[node name="CreateAnimation" type="AcceptDialog" parent="CanvasLayer/Container/Config/MenuBar/Creation"]
+title = "Create Animation"
+initial_position = 1
+size = Vector2i(500, 110)
+always_on_top = true
+ok_button_text = "Create"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CanvasLayer/Container/Config/MenuBar/Creation/CreateAnimation"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Container/Config/MenuBar/Creation/CreateAnimation/CanvasLayer"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.609091
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Description" type="Label" parent="CanvasLayer/Container/Config/MenuBar/Creation/CreateAnimation/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+text = "Crea una animacion con un prefix"
+
+[node name="prefix" type="HBoxContainer" parent="CanvasLayer/Container/Config/MenuBar/Creation/CreateAnimation/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Container/Config/MenuBar/Creation/CreateAnimation/CanvasLayer/VBoxContainer/prefix"]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "prefix name:"
+horizontal_alignment = 1
+
+[node name="Edit" type="LineEdit" parent="CanvasLayer/Container/Config/MenuBar/Creation/CreateAnimation/CanvasLayer/VBoxContainer/prefix"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "idle"
+
+[node name="RemoveAnimation" type="ConfirmationDialog" parent="CanvasLayer/Container/Config/MenuBar/Creation"]
+position = Vector2i(0, 36)
+size = Vector2i(400, 80)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CanvasLayer/Container/Config/MenuBar/Creation/RemoveAnimation"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Container/Config/MenuBar/Creation/RemoveAnimation/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.04
+anchor_right = 0.96
+anchor_bottom = 0.35
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Container/Config/MenuBar/Creation/RemoveAnimation/CanvasLayer/HBoxContainer"]
+layout_mode = 2
+text = "Animation Prefix:"
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Container/Config/MenuBar/Creation/RemoveAnimation/CanvasLayer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="MenuButton" type="MenuButton" parent="CanvasLayer/Container/Config/MenuBar/Creation/RemoveAnimation/CanvasLayer/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MenuButton" type="Node" parent="CanvasLayer/Container/Config/MenuBar/Creation/RemoveAnimation" node_paths=PackedStringArray("Value")]
+script = ExtResource("3_6nfh2")
+Value = NodePath("../CanvasLayer/HBoxContainer/Panel/MenuButton")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="Animation" type="PopupMenu" parent="CanvasLayer/Container/Config/MenuBar"]
+auto_translate_mode = 1
+title = "Animation"
+size = Vector2i(156, 100)
+always_on_top = true
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Container"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="Container" type="HBoxContainer" parent="CanvasLayer/Container/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Play" type="Button" parent="CanvasLayer/Container/Panel/Container"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Play"
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Container/Panel/Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "24 FPS"
+
+[node name="Control" type="Control" parent="CanvasLayer/Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FlxSprite" type="TextureRect" parent="CanvasLayer/Container/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.125
+anchor_top = 0.105
+anchor_right = 0.875
+anchor_bottom = 0.85
+offset_right = 128.0
+offset_bottom = 108.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+size_flags_vertical = 3
+texture = SubResource("AtlasTexture_ad7ch")
+expand_mode = 1
+stretch_mode = 3
+script = ExtResource("1_wunll")
+metadata/_custom_type_script = "uid://bw8rj5ulp7ebs"
+metadata/_edit_use_anchors_ = true
+
+[node name="Position" type="Marker2D" parent="CanvasLayer/Container/Control/FlxSprite"]
+position = Vector2(64, 46)
+
+[node name="FlxSprite" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("3_6nfh2")
+Value = NodePath("../CanvasLayer/Container/Control/FlxSprite")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="AnimationOptions" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("3_6nfh2")
+Value = NodePath("../CanvasLayer/Container/Config/MenuBar/Animation")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="RemoveAnimation" type="Node" parent="."]
+
+[node name="Prefix" type="Node" parent="RemoveAnimation" node_paths=PackedStringArray("Value")]
+script = ExtResource("3_6nfh2")
+Value = NodePath("../../CanvasLayer/Container/Config/MenuBar/Creation/RemoveAnimation/CanvasLayer/HBoxContainer/Panel/MenuButton")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="CreateAnimation" type="Node" parent="."]
+
+[node name="Prefix" type="Node" parent="CreateAnimation" node_paths=PackedStringArray("Value")]
+script = ExtResource("3_6nfh2")
+Value = NodePath("../../CanvasLayer/Container/Config/MenuBar/Creation/CreateAnimation/CanvasLayer/VBoxContainer/prefix/Edit")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[connection signal="close_requested" from="." to="." method="hide"]
+[connection signal="id_pressed" from="CanvasLayer/Container/Config/MenuBar/Creation" to="CanvasLayer/Container/Config/MenuBar/Creation" method="_id_pressed"]
+[connection signal="confirmed" from="CanvasLayer/Container/Config/MenuBar/Creation/CreateAnimation" to="." method="accept_create_keyframes"]
+[connection signal="confirmed" from="CanvasLayer/Container/Config/MenuBar/Creation/RemoveAnimation" to="." method="accept_remove_keyframes"]
+[connection signal="pressed" from="CanvasLayer/Container/Panel/Container/Play" to="." method="_on_play_pressed"]
+[connection signal="text_changed" from="CanvasLayer/Container/Panel/Container/LineEdit" to="." method="set_fps"]

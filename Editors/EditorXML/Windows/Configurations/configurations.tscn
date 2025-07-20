@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://bq0pt7wyyjuab"]
+
+[ext_resource type="Script" uid="uid://cvpjyc08xidcj" path="res://Editors/EditorXML/Windows/Configurations/configurations.gd" id="1_dytp7"]
+[ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="2_mihpw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6dhn"]
+bg_color = Color(0.136826, 0.136826, 0.136826, 1)
+
+[node name="Configurations" type="Window"]
+title = "Configurations"
+initial_position = 2
+size = Vector2i(512, 512)
+script = ExtResource("1_dytp7")
+
+[node name="display_scale" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_mihpw")
+Value = NodePath("../CanvasLayer/Control/VBoxContainer/Panel/display_scale")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BackGround" type="ColorRect" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.196078, 0.196078, 0.196078, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="display_scale" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/Panel/display_scale"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Display Scale (Beta):"
+vertical_alignment = 1
+
+[node name="MenuButton" type="MenuButton" parent="CanvasLayer/Control/VBoxContainer/Panel/display_scale"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i6dhn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_i6dhn")
+text = "100%"
+flat = false
+
+[connection signal="close_requested" from="." to="." method="hide"]
+[connection signal="ready" from="display_scale" to="." method="_on_display_scale_ready"]

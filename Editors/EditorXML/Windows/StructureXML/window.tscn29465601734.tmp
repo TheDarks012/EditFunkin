@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://1ic8k4m4351b"]
+
+[ext_resource type="Script" uid="uid://dpj5ign13hk0a" path="res://EditorXML/Windows/StructureXML/window.gd" id="1_of8my"]
+[ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="2_qr1x6"]
+
+[sub_resource type="GDScript" id="GDScript_621yc"]
+resource_name = "tree"
+script/source = "extends Tree
+
+@onready var Root = create_item()
+
+func _process(_delta: float) -> void:
+	Root.set_text(0, Config.ConfigCharacter.CharacterName)
+"
+
+[node name="Structure" type="Window"]
+initial_position = 1
+size = Vector2i(1024, 512)
+script = ExtResource("1_of8my")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Structure" type="HBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Control/Structure"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/Structure/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Tree" type="Tree" parent="CanvasLayer/Control/Structure/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = SubResource("GDScript_621yc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Structure"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Control/Structure/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="Tree" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_qr1x6")
+Value = NodePath("../CanvasLayer/Control/Structure/Panel/ScrollContainer/Tree")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[connection signal="close_requested" from="." to="." method="hide"]

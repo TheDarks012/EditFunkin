@@ -1,0 +1,85 @@
+[gd_scene load_steps=3 format=3 uid="uid://d34ufiiadccsm"]
+
+[ext_resource type="Script" uid="uid://h65tdcnd443m" path="res://Editors/EditorXML/Windows/CreateAnimation/create_animation.gd" id="1_anjha"]
+[ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="2_l874o"]
+
+[node name="CreateAnimation" type="AcceptDialog"]
+auto_translate_mode = 1
+title = "Create Animation"
+initial_position = 1
+size = Vector2i(500, 110)
+always_on_top = true
+ok_button_text = "Create"
+script = ExtResource("1_anjha")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Box" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.609091
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Prefix" type="VBoxContainer" parent="CanvasLayer/Box"]
+layout_mode = 2
+
+[node name="Description" type="Label" parent="CanvasLayer/Box/Prefix"]
+layout_mode = 2
+text = "Crea una animacion con un prefix"
+
+[node name="prefix" type="HBoxContainer" parent="CanvasLayer/Box/Prefix"]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Box/Prefix/prefix"]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "prefix name:"
+horizontal_alignment = 1
+
+[node name="Edit" type="LineEdit" parent="CanvasLayer/Box/Prefix/prefix"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "idle"
+
+[node name="Selection" type="VBoxContainer" parent="CanvasLayer/Box"]
+visible = false
+layout_mode = 2
+
+[node name="Description" type="Label" parent="CanvasLayer/Box/Selection"]
+layout_mode = 2
+text = "Crea una animacion con los Frames Seleccionados"
+
+[node name="prefix" type="HBoxContainer" parent="CanvasLayer/Box/Selection"]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Box/Selection/prefix"]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "animation name:"
+horizontal_alignment = 1
+
+[node name="Edit" type="LineEdit" parent="CanvasLayer/Box/Selection/prefix"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "idle"
+
+[node name="prefix" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_l874o")
+Value = NodePath("../CanvasLayer/Box/Prefix/prefix/Edit")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="selection" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_l874o")
+Value = NodePath("../CanvasLayer/Box/Selection/prefix/Edit")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="Box" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_l874o")
+Value = NodePath("../CanvasLayer/Box")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[connection signal="confirmed" from="." to="." method="accept_create_keyframes"]

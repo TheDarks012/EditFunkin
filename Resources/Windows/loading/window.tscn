@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3 uid="uid://vq51o24w3p5q"]
+
+[ext_resource type="Script" uid="uid://dvcvhtd5jd3bf" path="res://Resources/Windows/loading/window.gd" id="1_s7mht"]
+[ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="2_1eitd"]
+
+[node name="Window" type="Window"]
+initial_position = 1
+size = Vector2i(512, 100)
+script = ExtResource("1_s7mht")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "[*]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control/Panel/VBoxContainer"]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/Panel/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "cancel"
+
+[node name="cancelbutton" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_1eitd")
+Value = NodePath("../CanvasLayer/Control/Panel/VBoxContainer/HBoxContainer/Button")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="progressbar" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_1eitd")
+Value = NodePath("../CanvasLayer/Control/Panel/VBoxContainer/ProgressBar")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="label" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_1eitd")
+Value = NodePath("../CanvasLayer/Control/Panel/VBoxContainer/Label")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[connection signal="close_requested" from="." to="." method="_cancel"]

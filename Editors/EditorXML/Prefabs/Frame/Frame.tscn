@@ -1,0 +1,88 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1rnkihai00wc"]
+
+[ext_resource type="Script" uid="uid://ckhjffu6dmuv6" path="res://Editors/EditorXML/Prefabs/Frame/frame.gd" id="1_16ehk"]
+[ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="1_l2x8u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_16ehk"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[node name="Frame" type="Panel"]
+clip_contents = true
+custom_minimum_size = Vector2(104, 104)
+anchors_preset = -1
+anchor_right = 0.0902778
+anchor_bottom = 0.160494
+offset_right = -4.57764e-05
+script = ExtResource("1_16ehk")
+metadata/_edit_use_anchors_ = true
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.22
+offset_bottom = 0.120001
+grow_horizontal = 2
+text = "00000000000"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="FlxSprite" type="Node" parent="."]
+script = ExtResource("1_l2x8u")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="MoveClicker" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+action_mode = 0
+
+[node name="Check" type="CheckBox" parent="."]
+self_modulate = Color(0.294118, 0.294118, 0.490196, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.75
+anchor_top = 0.730769
+anchor_right = 0.980769
+anchor_bottom = 0.961538
+theme_override_styles/focus = SubResource("StyleBoxFlat_16ehk")
+metadata/_edit_use_anchors_ = true
+
+[node name="OpenClicker" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.692308
+anchor_right = 0.730769
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_colors/font_outline_color = Color(0.490196, 1, 0.490196, 1)
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_constants/outline_size = 5
+text = "V"
+metadata/_edit_use_anchors_ = true
+
+[node name="name" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("1_l2x8u")
+Value = NodePath("../Name")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[connection signal="renamed" from="." to="." method="OnRenamed"]
+[connection signal="ChangeObject" from="FlxSprite" to="." method="ChangeFlxSprite"]
+[connection signal="mouse_entered" from="MoveClicker" to="MoveClicker" method="set_flat" binds= [true]]
+[connection signal="mouse_exited" from="MoveClicker" to="MoveClicker" method="set_flat" binds= [false]]
+[connection signal="pressed" from="MoveClicker" to="." method="onSelectionMoveFrame"]
+[connection signal="toggled" from="Check" to="." method="_on_select"]
+[connection signal="mouse_entered" from="OpenClicker" to="OpenClicker" method="set_flat" binds= [true]]
+[connection signal="mouse_exited" from="OpenClicker" to="OpenClicker" method="set_flat" binds= [false]]
+[connection signal="pressed" from="OpenClicker" to="." method="OpenWindow"]

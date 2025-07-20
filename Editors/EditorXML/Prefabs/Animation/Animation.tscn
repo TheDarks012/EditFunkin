@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwyy7dxcpt0yr"]
+
+[ext_resource type="Script" uid="uid://lj6f2wv6bkuu" path="res://Editors/EditorXML/Prefabs/Animation/animation.gd" id="1_aiuvk"]
+[ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="1_g3q65"]
+
+[node name="Window" type="Window"]
+visible = false
+borderless = true
+script = ExtResource("1_aiuvk")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="CanvasLayer/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Grid" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("1_g3q65")
+Value = NodePath("")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[connection signal="focus_exited" from="." to="." method="hide"]

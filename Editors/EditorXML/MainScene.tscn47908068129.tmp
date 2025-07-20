@@ -1,0 +1,207 @@
+[gd_scene load_steps=9 format=3 uid="uid://rxwvmxpdnp2x"]
+
+[ext_resource type="Script" uid="uid://x7a8kbymeeft" path="res://EditorXML/Scripts/main.gd" id="1_gxy8m"]
+[ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="2_dw4xy"]
+[ext_resource type="Script" uid="uid://cq5abkvn74quq" path="res://EditorXML/Scripts/Popup/file.gd" id="2_r42pp"]
+[ext_resource type="Script" uid="uid://bich8s33blsly" path="res://EditorXML/Scripts/Popup/view.gd" id="2_syk4w"]
+[ext_resource type="Script" uid="uid://c343msc24rby7" path="res://EditorXML/Scripts/FrameSystem/frame.gd" id="3_u60x3"]
+[ext_resource type="PackedScene" uid="uid://c1rnkihai00wc" path="res://EditorXML/Prefabs/Frame/Frame.tscn" id="6_hbrsq"]
+[ext_resource type="PackedScene" uid="uid://cjy81hjbnc807" path="res://EditorXML/Windows/Playanimation/window.tscn" id="6_vaa0e"]
+[ext_resource type="PackedScene" uid="uid://1ic8k4m4351b" path="res://EditorXML/Windows/StructureXML/window.tscn" id="8_jdlev"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_gxy8m")
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="GUI" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="GUI/GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.202082, 0.086068, 0.0906922, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/GUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.00699301
+anchor_top = -0.0125
+anchor_right = 1.01399
+anchor_bottom = 1.025
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="GUI/GUI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="MenuBar" type="MenuBar" parent="GUI/GUI/VBoxContainer/Panel"]
+layout_mode = 2
+anchor_left = 0.00684932
+anchor_top = 0.2
+anchor_right = 0.0950342
+anchor_bottom = 0.975
+metadata/_edit_use_anchors_ = true
+
+[node name="File" type="PopupMenu" parent="GUI/GUI/VBoxContainer/Panel/MenuBar"]
+auto_translate_mode = 1
+size = Vector2i(178, 116)
+item_count = 3
+item_0/text = "Files"
+item_0/id = 0
+item_0/disabled = true
+item_0/separator = true
+item_1/text = "Import Frames"
+item_1/id = 1
+item_2/text = "Export Frames"
+item_2/id = 2
+script = ExtResource("2_r42pp")
+
+[node name="View" type="PopupMenu" parent="GUI/GUI/VBoxContainer/Panel/MenuBar"]
+auto_translate_mode = 1
+size = Vector2i(178, 116)
+item_count = 4
+item_0/text = "Antialiasing"
+item_0/checkable = 1
+item_0/checked = true
+item_0/id = 0
+item_1/text = "Animations"
+item_1/id = 1
+item_1/disabled = true
+item_1/separator = true
+item_2/text = "View Animations"
+item_2/id = 2
+item_3/text = "View Structure XML"
+item_3/id = 3
+script = ExtResource("2_syk4w")
+
+[node name="Window" type="Node" parent="GUI/GUI/VBoxContainer/Panel/MenuBar/View" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../../../../../../PlayAnimation")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="Button" type="Button" parent="GUI/GUI/VBoxContainer/Panel"]
+layout_mode = 0
+anchor_left = 0.869863
+anchor_top = 0.2
+anchor_right = 0.993151
+anchor_bottom = 0.975
+text = "Generation XML"
+metadata/_edit_use_anchors_ = true
+
+[node name="Frame" type="Control" parent="GUI/GUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_u60x3")
+metadata/PreInstance = ExtResource("6_hbrsq")
+
+[node name="PlayAnimation" type="Node" parent="GUI/GUI/VBoxContainer/Frame" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../../../../PlayAnimation")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="AddFrame" type="Node" parent="GUI/GUI/VBoxContainer/Frame" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../Frames/Container/AddFrame")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="Container" type="Node" parent="GUI/GUI/VBoxContainer/Frame" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../Frames/Container")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="Frames" type="ScrollContainer" parent="GUI/GUI/VBoxContainer/Frame"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0561224
+anchor_right = 0.937075
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Container" type="GridContainer" parent="GUI/GUI/VBoxContainer/Frame/Frames"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 10
+
+[node name="AddFrame" type="Button" parent="GUI/GUI/VBoxContainer/Frame/Frames/Container"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+text = "Add Frame"
+
+[node name="Options" type="Panel" parent="GUI/GUI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="LoadFiles" type="FileDialog" parent="GUI"]
+title = "Open File(s)"
+initial_position = 2
+ok_button_text = "Open"
+file_mode = 1
+access = 2
+filters = PackedStringArray("*.png", "*.xml")
+
+[node name="SaveFiles" type="FileDialog" parent="GUI"]
+auto_translate_mode = 1
+title = "Open a Directory"
+initial_position = 2
+ok_button_text = "Select Current Folder"
+file_mode = 2
+access = 2
+
+[node name="SaveFile" type="FileDialog" parent="GUI"]
+auto_translate_mode = 1
+initial_position = 2
+access = 2
+filters = PackedStringArray("*.png")
+
+[node name="PlayAnimation" parent="GUI" instance=ExtResource("6_vaa0e")]
+visible = false
+
+[node name="Structure" parent="GUI" node_paths=PackedStringArray("PlayAnim") instance=ExtResource("8_jdlev")]
+PlayAnim = NodePath("../PlayAnimation")
+
+[node name="LoadFiles" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../GUI/LoadFiles")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="SaveFiles" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../GUI/SaveFiles")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="SaveFile" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../GUI/SaveFile")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="Frame" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../GUI/GUI/VBoxContainer/Frame")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[connection signal="id_pressed" from="GUI/GUI/VBoxContainer/Panel/MenuBar/File" to="GUI/GUI/VBoxContainer/Panel/MenuBar/File" method="_id_pressed"]
+[connection signal="id_pressed" from="GUI/GUI/VBoxContainer/Panel/MenuBar/View" to="GUI/GUI/VBoxContainer/Panel/MenuBar/View" method="_id_pressed"]
+[connection signal="pressed" from="GUI/GUI/VBoxContainer/Panel/Button" to="GUI/SaveFile" method="show"]
+[connection signal="pressed" from="GUI/GUI/VBoxContainer/Frame/Frames/Container/AddFrame" to="GUI/LoadFiles" method="show"]
+[connection signal="files_selected" from="GUI/LoadFiles" to="." method="loadFiles"]
+[connection signal="dir_selected" from="GUI/SaveFiles" to="." method="saveFiles"]
+[connection signal="file_selected" from="GUI/SaveFile" to="." method="saveFile"]

@@ -1,0 +1,113 @@
+[gd_scene load_steps=3 format=3 uid="uid://rxwvmxpdnp2x"]
+
+[ext_resource type="Script" uid="uid://x7a8kbymeeft" path="res://EditorXML/Scripts/main.gd" id="1_gxy8m"]
+[ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="2_dw4xy"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_gxy8m")
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="GUI" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="GUI/GUI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="MenuBar" type="MenuBar" parent="GUI/GUI/VBoxContainer/Panel"]
+layout_mode = 2
+offset_top = -0.5
+offset_right = 103.0
+offset_bottom = 30.5
+
+[node name="File" type="PopupMenu" parent="GUI/GUI/VBoxContainer/Panel/MenuBar"]
+size = Vector2i(178, 116)
+item_count = 3
+item_0/text = "Files"
+item_0/id = 0
+item_0/disabled = true
+item_0/separator = true
+item_1/text = "Import Frames"
+item_1/id = 1
+item_2/text = "Export Frames"
+item_2/id = 2
+
+[node name="View" type="PopupMenu" parent="GUI/GUI/VBoxContainer/Panel/MenuBar"]
+auto_translate_mode = 1
+size = Vector2i(178, 116)
+item_count = 3
+item_0/text = "Antialiasing"
+item_0/checkable = 1
+item_0/checked = true
+item_0/id = 0
+item_1/text = "Animations"
+item_1/id = 1
+item_1/disabled = true
+item_1/separator = true
+item_2/text = "View Animations"
+item_2/id = 2
+
+[node name="GridContainer" type="GridContainer" parent="GUI/GUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Options" type="Panel" parent="GUI/GUI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="LoadFiles" type="FileDialog" parent="GUI"]
+title = "Open File(s)"
+initial_position = 2
+ok_button_text = "Open"
+file_mode = 1
+access = 2
+filters = PackedStringArray("*.png*", "*.xml*")
+
+[node name="SaveFiles" type="FileDialog" parent="GUI"]
+auto_translate_mode = 1
+title = "Open a Directory"
+initial_position = 2
+ok_button_text = "Select Current Folder"
+file_mode = 2
+access = 2
+
+[node name="SaveFile" type="FileDialog" parent="GUI"]
+auto_translate_mode = 1
+initial_position = 2
+access = 2
+
+[node name="LoadFiles" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../GUI/LoadFiles")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="SaveFiles" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../GUI/SaveFiles")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="SaveFile" type="Node" parent="." node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../GUI/SaveFile")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[connection signal="id_pressed" from="GUI/GUI/VBoxContainer/Panel/MenuBar/View" to="." method="setConfig" binds= ["Antia", "A"]]
+[connection signal="files_selected" from="GUI/LoadFiles" to="." method="loadFiles"]
+[connection signal="dir_selected" from="GUI/SaveFiles" to="." method="saveFiles"]
+[connection signal="dir_selected" from="GUI/SaveFile" to="." method="saveFile"]
