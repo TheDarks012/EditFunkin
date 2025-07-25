@@ -11,12 +11,14 @@ config_version=5
 [application]
 
 config/name="EditFunkin"
+config/version="0.0.2"
 run/main_scene="uid://rxwvmxpdnp2x"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
+config/icon="uid://deg445aktxa2i"
 
 [autoload]
 
@@ -30,6 +32,7 @@ GlobalCallables="*res://Class/GlobalCallables.gd"
 window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
+window/icon=""
 
 [file_customization]
 

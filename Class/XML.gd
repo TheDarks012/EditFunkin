@@ -9,7 +9,7 @@ static func Create(path_this:String):
 	var TextureAtlas = null
 	var SubTextures = []
 	if err != OK:
-		print("Error al abrir el archivo XML")
+		GuiGlobal.AddTextToDebug("Error al abrir el archivo XML")
 		return
 	
 	while parser.read() == OK:
@@ -28,7 +28,6 @@ static func Create(path_this:String):
 				TextureAtlas = Data
 			if parser.get_node_name() == "SubTexture":
 				
-				GuiGlobal.AddTextToDebug(Data)
 				SubTextures.append(Data)
 		 
 	return {TextureAtlas = TextureAtlas, SubTextures = SubTextures}
@@ -36,10 +35,11 @@ static func Create(path_this:String):
 
 
 static func print_xml(data: Variant, root: String = "root") -> String:
-	var xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+	var xml = StringTags.xml.started
 	var retn = conversion(data, 1)
 	if retn.size() > 1:
 		xml += "<%s%s>\n" % [root, retn[1]]
+		xml += StringTags.xml.credits % ProjectSettings.get_setting("application/config/version")
 		xml += retn[0]
 		xml += "</%s>" % root
 	else:

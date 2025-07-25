@@ -119,16 +119,13 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer/MarginContainer"]
-layout_mode = 2
 color = Color(0.10748, 0.10748, 0.10748, 1)
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer/MarginContainer/ColorRect"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -136,14 +133,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer/MarginContainer/ColorRect/CenterContainer"]
+[node name="Control" type="Control" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer/ColorRect/CenterContainer"]
 clip_children = 2
 clip_contents = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer/MarginContainer/ColorRect/CenterContainer/Control"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer/ColorRect/CenterContainer/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -159,7 +156,7 @@ metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
 [node name="SpriteUbication" type="Node" parent="." node_paths=PackedStringArray("Value")]
 script = ExtResource("2_qr1x6")
-Value = NodePath("../CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer/MarginContainer/ColorRect/CenterContainer/Control")
+Value = NodePath("../CanvasLayer/Control/VBoxContainer/Structure/VBoxContainer/ScrollContainer/ColorRect/CenterContainer/Control")
 metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
 [node name="AttributeContainer" type="Node" parent="." node_paths=PackedStringArray("Value")]

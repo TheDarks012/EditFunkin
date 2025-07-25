@@ -5,6 +5,9 @@ var Antialiasing : bool = true:
 var DisplayScale : float = 1:
 	set(v): ChangeConfiguration.emit("DisplayScale", v); DisplayScale = v
 
+class Margin:
+	static var between_frames := 0
+	static var extra_margin := 0
 
 class ConfigCharacterClass:
 	
@@ -15,14 +18,6 @@ class ConfigCharacterClass:
 		set(v):
 			FlxAnimation.Animations = v
 
-class AndroidActions:
-	static var permissions : PackedStringArray = [
-		"android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
-		"android.permission.READ_EXTERNAL_STORAGE",
-		"android.permission.WRITE_EXTERNAL_STORAGE"
-	]
-	static func request_permissions():
-		OS.request_permissions()
 
 var ConfigCharacter : ConfigCharacterClass = ConfigCharacterClass.new()
 
@@ -30,4 +25,4 @@ var ConfigCharacter : ConfigCharacterClass = ConfigCharacterClass.new()
 func _ready():
 	var osName = OS.get_name()
 	if osName == "Android":
-		AndroidActions.request_permissions()
+		OS.request_permissions()

@@ -89,8 +89,9 @@ var color = Color():
 		value.a = alpha
 		self_modulate = value
 
-func get_full_width() -> int: return frameWidth
-func get_full_height() -> int: return frameHeight
+func get_full_width() -> int: return max(width,frameWidth)
+func get_full_height() -> int: return max(height,frameHeight)
+func get_full_size() -> Vector2: return Vector2(get_full_width(), get_full_height())
 
 func _init() -> void:
 	if custom_sprite:

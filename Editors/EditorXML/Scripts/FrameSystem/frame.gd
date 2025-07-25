@@ -7,6 +7,11 @@ extends Control
 		PlayAnimation.get_frames = _getFrames
 
 func _ready() -> void:
+	
+	ContainerFrames.child_order_changed.connect(func ():
+		ContainerFrames.move_child(AddFrame, ContainerFrames.get_child_count()-1)
+		, ConnectFlags.CONNECT_DEFERRED)
+	
 	GlobalCallables.AddFrame = _add
 	GlobalCallables.GetFrames = _getFrames
 
@@ -60,10 +65,6 @@ func _add(Frame: FlxSprite, isXML: bool = false, animName:String = ""):
 		flxAnimation.AddFrame.emit(Inst)
 	else:
 		ContainerFrames.add_child(Inst)
-	
-	
-	
-	ContainerFrames.move_child(AddFrame, ContainerFrames.get_child_count()-1)
 
 func _getFrames():
 	var retn = []

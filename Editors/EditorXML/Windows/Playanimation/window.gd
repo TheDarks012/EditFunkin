@@ -4,7 +4,6 @@ extends Window
 @onready var FlxAnimNode : FlxAnimation = $FlxAnimation.Value
 @onready var AnimPopup : PopupMenu = $AnimationOptions.Value
 var AnimPopupOrden = {}
-var Frames := {}
 
 
 
@@ -16,35 +15,23 @@ func _ready() -> void:
 			show()
 			return self
 		)
-
+	
 	AnimPopup.id_pressed.connect(func (id):
 		PlayAnimation(AnimPopup.get_item_text(id))
 		)
 	
-	GlobalSignals.AddAnimation.connect(func (animName:String, FlxAnim:FlxAnimation):
-		if Frames.has(animName): return false
-		Frames[animName] = FlxAnim
-		
-		
+	GlobalSignals.AddAnimation.connect(func (animName:String, _FlxAnim:FlxAnimation):
+		AnimPopupOrden[animName] = AnimPopup.item_count
 		AnimPopup.add_item(animName)
-		AnimPopupOrden[animName] = AnimPopup.get_child_count()
-		
-		return true
-		)
-	GlobalSignals.UpdateAnimation.connect(func (animName:String, FlxAnim:FlxAnimation):
-		if not Frames.has(animName): return false
-		
-		Frames[animName] = FlxAnim
-		
-		
 		return true
 		)
 	GlobalSignals.RemoveAnimation.connect(func (animName:String):
-		if not Frames.has(animName): return false
-		
 		AnimPopup.remove_item(AnimPopupOrden[animName])
+		for ordenName in AnimPopupOrden:
+			if AnimPopupOrden[ordenName] > AnimPopupOrden[animName]:
+				AnimPopupOrden[ordenName]-=1;
 		
-		Frames.erase(animName)
+		AnimPopupOrden.erase(animName)
 		return true
 		)
 	
@@ -57,11 +44,12 @@ func set_fps(new_text:String) -> void:
 
 func PlayAnimation(animName: String):
 	FlxAnimNode.frame = 0
-	if not Frames.has(animName): return
-	if not Frames[animName]: return
+	if not FlxAnimation.Animations.has(animName): return
+	var anim = FlxAnimation.Animations[animName]
+	if not anim: return
 	
-	FlxAnimNode.Frames = Frames[animName].Frames
-	FlxAnimNode._process(1.0/FlxAnimNode.FPS)
+	FlxAnimNode.Frames = anim.Frames
+	FlxAnimNode._process(1.0/FlxAnimNode.FPS * 2)
 
 
 func _on_play_pressed() -> void:

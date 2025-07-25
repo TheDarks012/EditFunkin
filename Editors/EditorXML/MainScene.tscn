@@ -2936,10 +2936,17 @@ Button/styles/pressed = SubResource("StyleBoxFlat_18fd4")
 resource_name = "GridChanging"
 script/source = "extends GridContainer
 
-@export var AreaMouse : Control = null
+@export var AreaMouse : Control
+const columns_max = 10
 
 func _ready() -> void:
-	AreaMouse.mouse_entered.connect(onMouseEntered)
+	Config.ChangeConfiguration.connect(func (ConfigName:String, ConfigValue:Variant):
+		if ConfigName == \"DisplayScale\":
+			columns = columns_max / ConfigValue
+		)
+	
+	if AreaMouse:
+		AreaMouse.mouse_entered.connect(onMouseEntered)
 
 func _process(_delta: float) -> void:
 	if not PanelFrame.DragPanelFrame: AreaMouse.hide()
@@ -3013,6 +3020,7 @@ theme_override_constants/separation = 0
 
 [node name="Main" type="Control" parent="GUI/Splitter"]
 clip_contents = true
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -3035,7 +3043,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("13_fb815")
 Data = Array[Dictionary]([{
-"control": NodePath("VBoxContainer/Frame/Frames"),
+"control": NodePath("VBoxContainer/Frame/Panel/Frames"),
 "inverse": true
 }, {
 "control": NodePath("VBoxContainer"),
@@ -3144,6 +3152,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_jdlev")
 text = "Generation XML"
 
 [node name="Frame" type="Control" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer"]
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("3_u60x3")
@@ -3160,35 +3169,43 @@ metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
 [node name="AddFrame" type="Node" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame" node_paths=PackedStringArray("Value")]
 script = ExtResource("2_dw4xy")
-Value = NodePath("../Frames/Container/AddFrame")
+Value = NodePath("../Panel/Frames/Container/AddFrame")
 metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
 [node name="Container" type="Node" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame" node_paths=PackedStringArray("Value")]
 script = ExtResource("2_dw4xy")
-Value = NodePath("../Frames/Container")
+Value = NodePath("../Panel/Frames/Container")
 metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
-[node name="Frames" type="ScrollContainer" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame"]
-clip_contents = false
+[node name="Panel" type="Panel" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame"]
+self_modulate = Color(1, 1, 1, 0.392157)
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.0564236
-anchor_right = 0.944444
+anchor_left = 0.025
+anchor_right = 0.975
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Frames" type="ScrollContainer" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame/Panel"]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 0
-metadata/_edit_use_anchors_ = true
 
-[node name="Container" type="GridContainer" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame/Frames" node_paths=PackedStringArray("AreaMouse")]
+[node name="Container" type="GridContainer" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame/Panel/Frames" node_paths=PackedStringArray("AreaMouse")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-columns = 6
+columns = 10
 script = SubResource("GDScript_y20ji")
-AreaMouse = NodePath("../../Control")
+AreaMouse = NodePath("../../../Control")
 
-[node name="AddFrame" type="Button" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame/Frames/Container"]
+[node name="AddFrame" type="Button" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame/Panel/Frames/Container"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 focus_mode = 0
@@ -3254,12 +3271,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.832292, 0.0866284, 0.383648, 1)
+color = Color(0.247751, 0.143294, 0.147489, 1)
 
 [node name="Panel" type="Panel" parent="GUI/Splitter/PanelAnimation"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = -1
+anchor_left = 0.025
+anchor_right = 0.975
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -3269,14 +3287,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 65.0
-offset_right = -64.0
-offset_bottom = -72.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="GridContainer" type="GridContainer" parent="GUI/Splitter/PanelAnimation/Panel/Scroll" node_paths=PackedStringArray("AreaMouse")]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 columns = 10
 script = SubResource("GDScript_y20ji")
 AreaMouse = NodePath("../../../Control")
@@ -3333,7 +3350,7 @@ metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 [connection signal="id_pressed" from="GUI/Splitter/Main/AutoScaling/VBoxContainer/Panel/HBoxContainer/MenuBar/View" to="GUI/Splitter/Main/AutoScaling/VBoxContainer/Panel/HBoxContainer/MenuBar/View" method="_id_pressed"]
 [connection signal="id_pressed" from="GUI/Splitter/Main/AutoScaling/VBoxContainer/Panel/HBoxContainer/MenuBar/Other" to="GUI/Splitter/Main/AutoScaling/VBoxContainer/Panel/HBoxContainer/MenuBar/Other" method="_id_pressed"]
 [connection signal="pressed" from="GUI/Splitter/Main/AutoScaling/VBoxContainer/Panel/HBoxContainer/Button" to="GUI/Windows/SaveFile" method="show"]
-[connection signal="pressed" from="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame/Frames/Container/AddFrame" to="GUI/Windows/LoadFiles" method="show"]
+[connection signal="pressed" from="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame/Panel/Frames/Container/AddFrame" to="GUI/Windows/LoadFiles" method="show"]
 [connection signal="toggled" from="GUI/Splitter/Main/AutoScaling/VBoxContainer/Options/Box/multi-selections/CheckButton" to="GUI/Splitter/Main/AutoScaling/VBoxContainer/Options/Box/multi-selections" method="_on_toggled"]
 [connection signal="pressed" from="GUI/Splitter/Main/AutoScaling/VBoxContainer/Options/Box/Create Animation" to="GUI/Splitter/Main/AutoScaling/VBoxContainer/Options/Box/Create Animation" method="_on_pressed"]
 [connection signal="pressed" from="GUI/Splitter/Main/AutoScaling/VBoxContainer/Options/Box/Delete Selections" to="GUI/Splitter/Main/AutoScaling/VBoxContainer/Options/Box/Delete Selections" method="_on_pressed"]

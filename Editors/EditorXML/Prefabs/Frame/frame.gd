@@ -153,6 +153,8 @@ func MoveToCursor() -> void:
 
 func ChangeFlxSprite(obj: Node) -> void:
 	if not obj: return
+	flxSprite = obj
+	update_size(false)
 	$OpenClicker.hide()
 	OnRenamed()
 
@@ -162,8 +164,37 @@ func _ready() -> void:
 		)
 	placeholder.custom_minimum_size = custom_minimum_size
 	
+	
+	var callable = func (child:Node):
+		if child is FlxSprite:
+			var isAnim = child is FlxAnimation
+			var callabletwo = update_size.bind(isAnim)
+			child.resized.connect(callabletwo)
+			
+			child.tree_exiting.connect(func ():
+				child.resized.disconnect(callabletwo)
+				, ConnectFlags.CONNECT_ONE_SHOT)
+	child_entered_tree.connect(callable)
 	if not has_node("FlxAnimation"): return
+	callable.call(get_node("FlxAnimation"))
+	
 	$Name.text = name
+
+
+func update_size(isAnim:bool):
+	var sl : Vector2 = size
+	if isAnim and has_node("FlxAnimation"):
+		var FlxAnim = get_node("FlxAnimation") as FlxAnimation
+		var max_size := FlxAnimation.GetMaxPixel(get_node("FlxAnimation"))
+		
+		FlxAnim.size = max_size
+		sl /= max_size
+		FlxAnim.scale = Vector2.ONE * min(sl.x, sl.y)
+	elif flxSprite:
+		var flxSize = flxSprite.get_full_size()
+		if flxSize > size:
+			sl /= flxSize
+			flxSprite.scale = Vector2.ONE * min(sl.x, sl.y)
 
 func OpenWindow():
 	var FlxAnim = $FlxAnimation as FlxAnimation
@@ -176,14 +207,6 @@ func _process(_delta:float):
 			MoveToCursor()
 		
 		position = get_global_mouse_position() - size * 0.5
-		
-	if has_node("FlxAnimation"):
-		var max_size := FlxAnimation.GetMaxPixel(get_node("FlxAnimation"))
-		var sl : Vector2 = size / max_size
-		get_node("FlxAnimation").scale = Vector2.ONE * min(sl.x, sl.y)
-	elif flxSprite:
-		var sl : Vector2 = size / flxSprite.size
-		flxSprite.scale = Vector2.ONE * min(sl.x, sl.y)
 
 func OnRenamed():
 	

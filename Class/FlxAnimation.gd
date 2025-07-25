@@ -81,15 +81,20 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		var framesfrees : Array[Node] = Frames.duplicate()
-		
+		if custom_animation:
+			GlobalSignals.RemoveAnimation.emit(get_parent().name)
 		while framesfrees.size() > 0:
-			var obj = framesfrees[0]
+			var panelFrame = framesfrees[0]
+			if panelFrame:
+				var flxSpr = panelFrame.flxSprite
+				if flxSpr:
+					FlxSprite.Sprites.erase(flxSpr)
 			framesfrees.remove_at(0)
-			obj.free()
+			
 		
 
 static func GetMaxPixel(FlxAnim:FlxAnimation) -> Vector2:
-	var max_size := Vector2.ONE
+	var max_size := Vector2.ZERO
 	for FlxSpr in FlxAnim.GetFramesInFlxSprites():
 		max_size.x = max(FlxSpr.get_full_width(), max_size.x)
 		max_size.y = max(FlxSpr.get_full_height(), max_size.y)
@@ -115,31 +120,24 @@ var timeElapsed = 0
 func _process(delta: float) -> void:
 	super(delta)
 	
-	size = get_parent().size
-	
 	if Frames.size() <= 0: return
 	
 	timeElapsed += delta
 	if timeElapsed >= 1.0/FPS:
 		timeElapsed = 0
-		if not Frames[frame]: return
-		if not Frames[frame] is PanelFrame: return
-		if not Frames[frame].has_node("FlxSprite"): return
-		var Frame = Frames[frame].get_node("FlxSprite").Value
-		if not Frame: return
-		Frame = Frame as FlxSprite
-		
-		if texture and is_instance_valid(texture):
-			if texture.has_method("free"): 
-				texture.cancel_free()
-				texture.free.call_deferred()
-		
-		
-		texture = Frame.texture.duplicate() as AtlasTexture
-		FlxSprite.CopyFrom(self, Frame)
 		
 		if frame <= 0:
 			StartAnimation.emit()
+		
+		if not Frames[frame]: return
+		if not Frames[frame] is PanelFrame: return
+		var Frame = Frames[frame].flxSprite
+		if not Frame: return
+		Frame = Frame as FlxSprite
+		texture = Frame.texture
+		
+		#.duplicate() as AtlasTexture
+		#FlxSprite.CopyFrom(self, Frame)
 		
 		frame += 1
 		if frame >= Frames.size():

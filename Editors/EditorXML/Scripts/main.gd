@@ -18,8 +18,6 @@ func _process(_delta: float) -> void:
 
 func _ready() -> void:
 	
-	
-	
 	GlobalSignals.AddAnimation.connect(func (animName:String, FlxAnim:FlxAnimation):
 		if ArrayAnimation.has(animName): return false
 		
@@ -38,7 +36,6 @@ func _ready() -> void:
 		ArrayAnimation.erase(animName)
 		return true
 		)
-	
 	GlobalSignals.AddPanelFrameToArrayFrame.connect(func (PanelFrameObj:PanelFrame):
 		if PanelFrameObj not in ArrayFrames:
 			ArrayFrames.append(PanelFrameObj)
@@ -55,7 +52,7 @@ func _ready() -> void:
 			
 		
 		if Splitter:
-			Splitter.split_offset = -round(float(get_tree().get_root().size.y) / 2)
+			Splitter.split_offset = min(-round(float(get_tree().get_root().size.y) / 2) / Config.DisplayScale, Splitter.split_offset)
 		
 		var callable = func ():
 			
@@ -93,18 +90,19 @@ func _ready() -> void:
 		)
 	
 	
-	DataPathDefault[LoadFiles.name] = ""
-	DataPathDefault[SaveFile.name] = ""
-	DataPathDefault[SaveFiles.name] = ""
-	var jsonLoad = FileAccess.open(StringTags.config.Path.DataPath, FileAccess.READ)
-	var text = jsonLoad.get_as_text()
-	jsonLoad.close()
+	DataPathDefault[LoadFiles.name] = StringTags.config.Path[LoadFiles.name]
+	DataPathDefault[SaveFile.name] = StringTags.config.Path[SaveFile.name]
+	DataPathDefault[SaveFiles.name] = StringTags.config.Path[SaveFiles.name]
 	
-	DataPathDefault = JSON.parse_string(text)
+	var jsonLoad = FileAccess.open(StringTags.config.Path.dir + StringTags.config.Path.DataPath, FileAccess.READ)
+	
+	if jsonLoad:
+		var text = jsonLoad.get_as_text()
+		jsonLoad.close()
+		DataPathDefault = JSON.parse_string(text)
 	
 	LoadFiles.current_dir = DataPathDefault[LoadFiles.name]
 	SaveFile.current_dir = DataPathDefault[SaveFile.name]
-	
 	SaveFiles.current_dir = DataPathDefault[SaveFiles.name]
 	const DuplicateFrames = StringTags.file.export.DuplicateFrames
 	SaveFiles.add_option(
@@ -171,12 +169,22 @@ func ChangePath(Name: String, path_this:String):
 	if not path_this.ends_with("/"): path_this += "/"
 	
 	DataPathDefault[Name] = path_this
-	var jsonSave = FileAccess.open(StringTags.config.Path.DataPath, FileAccess.WRITE)
-	var text = JSON.stringify(DataPathDefault)
-	jsonSave.store_string(text)
-	jsonSave.flush()
 	
-	jsonSave.close()
+	var dir = DirAccess.open(StringTags.config.Path.dir)
+	
+	var dir_datapath = Path.GetPathFolder(StringTags.config.Path.DataPath)
+	
+	if dir.dir_exists(dir_datapath):
+		dir.make_dir_recursive(dir_datapath)
+	
+	var jsonSave = FileAccess.open(StringTags.config.Path.dir + StringTags.config.Path.DataPath, FileAccess.WRITE)
+	
+	if jsonSave:
+		var text = JSON.stringify(DataPathDefault, "\t")
+		jsonSave.store_string(text)
+		jsonSave.flush()
+		
+		jsonSave.close()
 
 
 #region SaveFile
@@ -255,7 +263,8 @@ func saveFile(dir : String = StringTags.config.Path.SaveFile):
 		#*0.25*0.5
 		var maxX: int = ceil(sqrt(FramesOrden.size())) # sirve para ordenar el spritesheet
 		
-		var current = Vector2(0, 0) # el la posicion que cree el algoritmo donde ira la siguiente image
+		var current = Vector2.ONE * Config.Margin.extra_margin  # el la posicion que cree el algoritmo donde ira la siguiente image
+		
 		var maxHeightCurrent = 0
 		updatebar.call("Creado image...", -100)
 		var NewImage : Image = Image.create_empty(
@@ -280,8 +289,8 @@ func saveFile(dir : String = StringTags.config.Path.SaveFile):
 			
 			if nextY and current.x+region.size.x >= sizeImage.x:
 				nextY = false
-				current.x = 0
-				current.y += maxHeightCurrent
+				current.x = Config.Margin.extra_margin
+				current.y += maxHeightCurrent + Config.Margin.between_frames + (Config.Margin.extra_margin * 2)
 				maxHeightCurrent = 0
 			
 			
@@ -290,11 +299,6 @@ func saveFile(dir : String = StringTags.config.Path.SaveFile):
 			var png : Image = atlas.atlas.get_meta("Image") as Image # devuelve la Image que se uso para Crea el atlas del AtlasTexture
 			var DictData = Data.DictData as Dictionary
 			
-			
-			var newRegion = Rect2(
-				current,
-				region.size
-			)
 			
 			
 			
@@ -307,9 +311,9 @@ func saveFile(dir : String = StringTags.config.Path.SaveFile):
 						StringTags.xml.SubTexture,
 						{
 							name = sprite.name,
-							x = newRegion.position.x,
+							x = current.x,
+							y = current.y,
 							width = DictData.width,
-							y = newRegion.position.y,
 							height = DictData.height,
 							frameX = DictData.frameX,
 							frameY = DictData.frameY,
@@ -323,18 +327,19 @@ func saveFile(dir : String = StringTags.config.Path.SaveFile):
 			
 			#region agranda la imagen si es necesario
 			if current.x + region.size.x > sizeImage.x:
-				NewImage.crop(current.x + region.size.x, sizeImage.y)
+				NewImage.crop(current.x + region.size.x + Config.Margin.extra_margin, sizeImage.y)
 				sizeImage = NewImage.get_size()
 			
 			if current.y + region.size.y > sizeImage.y:
-				NewImage.crop(sizeImage.x, current.y + region.size.y)
+				NewImage.crop(sizeImage.x, current.y + region.size.y + Config.Margin.extra_margin)
+				sizeImage = NewImage.get_size()
 			
 			#endregion
 			if png.get_format() != Image.FORMAT_RGBA8:
 				png.convert(Image.FORMAT_RGBA8)
 			
-			NewImage.blit_rect(png, region, newRegion.position)
-			current.x = current.x + region.size.x
+			NewImage.blit_rect(png, region, current)
+			current.x = current.x + region.size.x + Config.Margin.between_frames  + Config.Margin.between_frames + (Config.Margin.extra_margin * 2)
 			maxHeightCurrent = max(maxHeightCurrent, region.size.y)
 		
 		metadata.sort_custom(func (a:Array, b:Array):
@@ -400,7 +405,7 @@ func saveFiles(dir : String = StringTags.config.Path.SaveFiles):
 		var sprite = frame.get_node("FlxSprite").Value as FlxSprite
 		var atlas = sprite.texture as AtlasTexture
 		
-		var region = Rect2i(atlas.region.position, Vector2i(sprite.width, sprite.height))
+		var region = Rect2i(atlas.region.position, Vector2i(sprite.width, sprite.height) + Vector2i(sprite.width, sprite.height))
 		
 		if FramesCreates != null:
 			var png = atlas.atlas.get_meta("Image")
@@ -412,12 +417,12 @@ func saveFiles(dir : String = StringTags.config.Path.SaveFiles):
 			FramesCreates[png][region] = true
 		
 		var image = Image.create(
-			floor(sprite.frameWidth),
-			floor(sprite.frameHeight),
+			floor(sprite.frameWidth) + (Config.Margin.extra_margin * 2),
+			floor(sprite.frameHeight) + (Config.Margin.extra_margin * 2),
 			false,
 			Image.FORMAT_RGBA8
 			)
-		image.blit_rect(atlas.atlas.get_image(), region, -Vector2i(sprite.frameX, sprite.frameY))
+		image.blit_rect(atlas.atlas.get_image(), region, -Vector2i(sprite.frameX, sprite.frameY) + (Vector2i.ONE * Config.Margin.extra_margin))
 		image.save_png(dir + "/" + sprite.name + ".png")
 #endregion
 
@@ -426,7 +431,6 @@ func loadFiles(PathFiles: Array[String] = [StringTags.config.Path.LoadFiles]) ->
 	var dir = PathFiles[0]
 	var Images = {}
 	
-	GuiGlobal.AddTextToDebug(str(PathFiles))
 	
 	ChangePath(LoadFiles.name, Path.GetPathFolder(dir))
 	

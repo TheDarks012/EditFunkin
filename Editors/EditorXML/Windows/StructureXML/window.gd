@@ -151,16 +151,16 @@ func _process(_delta:float) -> void:
 	FlxSprite.Sprites = FlxSprite.Sprites.filter(func(element): return element != null)
 	
 	if SpriteSelect:
-		SpriteUbication.custom_minimum_size = Vector2(
-			SpriteSelect.get_full_width(),
-			SpriteSelect.get_full_height()
-		)
-		var calc = (minimunVectorEpic / max_sized)
+		
+		SpriteUbication.custom_minimum_size = SpriteSelect.get_full_size()
 		SpriteUbication.custom_minimum_size *= 0.75
 		SpriteUbication.custom_minimum_size *= ScaledSprite
+		
+		var calc = (minimunVectorEpic / max_sized)
 		SpriteUbication.custom_minimum_size *= calc
 		
-		SpriteSelect.scale = Vector2.ONE * 0.75 * ScaledSprite * calc
+		SpriteSelect.scale = Vector2.ONE * 0.75 * ScaledSprite * calc * SpriteSelect.get_full_size()/SpriteSelect.size
+		
 
 
 
@@ -195,7 +195,6 @@ func ItemSelect():
 		
 		ChangeValue.connect(dup.set)
 		ChangeValue.connect(FlxSpr.set)
-		dup.set_anchors_preset(Control.PRESET_FULL_RECT)
 		
 		var newSize = Vector2(
 			dup.get_full_width(),

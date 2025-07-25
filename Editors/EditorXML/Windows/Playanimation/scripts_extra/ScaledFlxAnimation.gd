@@ -1,22 +1,34 @@
-extends Control
+extends FlxAnimation
 
-@export var FlxAnim: FlxAnimation
-var sized = Vector2.ONE
+@export var parent_of_max_size:Control
 
-func _ready() -> void:
-	resized.connect(func (): sized = size, ConnectFlags.CONNECT_ONE_SHOT)
-	FlxAnim.set("position", Vector2.ZERO)
-	#FlxAnim.StartAnimation.connect(startAnim, ConnectFlags.CONNECT_DEFERRED)
-	FlxAnim.StartAnimation.connect(FlxAnim.set.bind("position", Vector2.ZERO), ConnectFlags.CONNECT_DEFERRED)
+var noLoop = false
 
-
-func _process(_delta: float) -> void:
-	var max_size := Vector2.ZERO
-	for FlxSpr in FlxSprite.Sprites:
-		if FlxSpr:
-			max_size.x = max(max_size.x, FlxSpr.get_full_width())
-			max_size.y = max(max_size.y, FlxSpr.get_full_height())
-	max_size = Vector2.ONE * min(max_size.x, max_size.y)
+func update_size():
+	if noLoop: noLoop=false;return
+	var max_size = Vector2.ZERO
+	for FlxFrame:FlxSprite in FlxSprite.Sprites:
+		if FlxFrame:
+			if FlxFrame.animationOwner != self:
+				max_size.x = max(FlxFrame.get_full_width(), max_size.x)
+				max_size.y = max(FlxFrame.get_full_height(), max_size.y)
 	
-	scale = sized / max_size
-	custom_minimum_size = size * scale
+	max_size = Vector2.ONE * max(max_size.x, max_size.y)
+	
+	noLoop=true
+	size = Vector2(get_full_width(), get_full_height())
+	
+	if parent_of_max_size:
+		scale = parent_of_max_size.size / max_size
+		position = Vector2.ZERO
+	
+	get_parent().custom_minimum_size = max_size * scale
+	
+
+func _ready():
+	custom_sprite = false
+	custom_animation = false
+	super()
+	
+	resized.connect(update_size)
+	StartAnimation.connect(update_size)

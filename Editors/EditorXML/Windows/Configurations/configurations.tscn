@@ -12,9 +12,28 @@ initial_position = 2
 size = Vector2i(512, 512)
 script = ExtResource("1_dytp7")
 
-[node name="display_scale" type="Node" parent="." node_paths=PackedStringArray("Value")]
+[node name="gui" type="Node" parent="."]
+
+[node name="display_scale" type="Node" parent="gui" node_paths=PackedStringArray("Value")]
 script = ExtResource("2_mihpw")
-Value = NodePath("../CanvasLayer/Control/VBoxContainer/Panel/display_scale")
+Value = NodePath("../../CanvasLayer/Control/ScrollContainer/VBOX/gui/display_scale/HBOX")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="frame" type="Node" parent="."]
+
+[node name="margin_between_frames" type="Node" parent="frame" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_mihpw")
+Value = NodePath("../../CanvasLayer/Control/ScrollContainer/VBOX/frame/margin_between_frames/HBOX")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="extra_margin" type="Node" parent="frame" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_mihpw")
+Value = NodePath("../../CanvasLayer/Control/ScrollContainer/VBOX/frame/extra_margin/HBOX")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="antialiasing" type="Node" parent="frame" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_mihpw")
+Value = NodePath("../../CanvasLayer/Control/ScrollContainer/VBOX/frame/antialiasing/HBOX")
 metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -38,33 +57,50 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.196078, 0.196078, 0.196078, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
 
-[node name="Panel" type="Panel" parent="CanvasLayer/Control/VBoxContainer"]
+[node name="VBOX" type="VBoxContainer" parent="CanvasLayer/Control/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="gui" type="VBoxContainer" parent="CanvasLayer/Control/ScrollContainer/VBOX"]
+layout_mode = 2
+
+[node name="gui_separator" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui"]
+layout_mode = 2
+text = "- GUI -"
+horizontal_alignment = 1
+
+[node name="display_scale" type="Panel" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 
-[node name="display_scale" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer/Panel"]
+[node name="HBOX" type="HBoxContainer" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui/display_scale"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/Panel/display_scale"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui/display_scale/HBOX"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "Display Scale (Beta):"
 vertical_alignment = 1
 
-[node name="MenuButton" type="MenuButton" parent="CanvasLayer/Control/VBoxContainer/Panel/display_scale"]
+[node name="MenuButton" type="MenuButton" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui/display_scale/HBOX"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/pressed = SubResource("StyleBoxFlat_i6dhn")
@@ -72,5 +108,107 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_i6dhn")
 text = "100%"
 flat = false
 
+[node name="frame" type="VBoxContainer" parent="CanvasLayer/Control/ScrollContainer/VBOX"]
+layout_mode = 2
+
+[node name="frame_separator" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame"]
+layout_mode = 2
+text = "- Frame -"
+horizontal_alignment = 1
+
+[node name="margin_between_frames" type="Panel" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="HBOX" type="HBoxContainer" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/margin_between_frames"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/margin_between_frames/HBOX"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Margin Between Frames:"
+vertical_alignment = 1
+
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/margin_between_frames/HBOX"]
+layout_mode = 2
+size_flags_horizontal = 3
+rounded = true
+allow_greater = true
+alignment = 2
+
+[node name="extra_margin" type="Panel" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame"]
+visible = false
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="HBOX" type="HBoxContainer" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/extra_margin"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/extra_margin/HBOX"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Extra Margin (Beta):"
+vertical_alignment = 1
+
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/extra_margin/HBOX"]
+layout_mode = 2
+size_flags_horizontal = 3
+rounded = true
+allow_greater = true
+alignment = 2
+
+[node name="README" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/extra_margin"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "INCOMPLETO
+		///
+INCOMPLETE
+"
+
+[node name="antialiasing" type="Panel" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="HBOX" type="HBoxContainer" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/antialiasing"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/antialiasing/HBOX"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Antialiasing:"
+vertical_alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/antialiasing/HBOX"]
+layout_mode = 2
+button_pressed = true
+icon_alignment = 1
+
+[node name="Control" type="Control" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/antialiasing/HBOX"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
 [connection signal="close_requested" from="." to="." method="hide"]
-[connection signal="ready" from="display_scale" to="." method="_on_display_scale_ready"]
+[connection signal="ready" from="gui/display_scale" to="." method="_on_display_scale_ready"]
+[connection signal="ready" from="frame/margin_between_frames" to="." method="_on_margin_between_frames_ready"]
+[connection signal="ready" from="frame/extra_margin" to="." method="_on_extra_margin_ready"]
+[connection signal="ready" from="frame/antialiasing" to="." method="_on_antialiasing_ready"]
