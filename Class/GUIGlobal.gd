@@ -74,14 +74,3 @@ func AddTextToDebug(label:Variant):
 	
 	
 	return tween
-
-func _input(event: InputEvent) -> void:
-	
-	if event is InputEventKey:
-		if event.is_action("ui_shift"):
-			if event.is_pressed():
-				PanelFrame.selection_multiple = true
-			elif event.is_released():
-				PanelFrame.selection_multiple = false
-	
-	

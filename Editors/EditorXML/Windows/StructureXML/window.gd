@@ -1,23 +1,23 @@
 extends Window
 class_name TreeCharacter
 
-@export var ScaledSprite = 0.5
-@export var minimunVectorEpic = Vector2(600, 600)
 @onready var TreeValue : Tree = $Tree.Value
 @onready var AttributeContainer : HBoxContainer = $AttributeContainer.Value
 @onready var ResourceAttribute : Panel = $Attribute
 @onready var SpriteUbication : Control = $SpriteUbication.Value
+@onready var MakeGhostButtom : Button = $MakeGhost.Value
+@export var ScaledSprite = 0.5
+@export var minimunVectorEpic = Vector2(600, 600)
+signal ChangeValue(Property: String, Value: Variant)
 const _ItemTree = "ItemTree"
 const _FlxSpr = "FlxSpr"
 const _FlxAnim = "FlxAnim"
 const canon = "canonico"
-
-
-signal ChangeValue(Property: String, Value: Variant)
-
-
 var Root: TreeItem
 var SpriteSelect: FlxSprite
+var SpriteGhost: FlxSprite
+
+
 
 func callable_for_edit_mode(flxSprite: Node,V:bool=true):
 	for child in AttributeContainer.get_children():
@@ -111,16 +111,17 @@ func _process(_delta:float) -> void:
 		
 		FlxAnim.UpdateFrame.connect(func ():
 			@warning_ignore("confusable_capture_reassignment")
-			#var NewItemTree = FlxAnim.get_meta(_ItemTree)
 			var before : TreeItem = null
-			for frameOrden in FlxAnim.Frames:
+			for i in FlxAnim.Frames.size():
+				if not FlxAnim.Frames[i] is PanelFrame: continue
+				var frameOrden = FlxAnim.Frames[i].flxSprite
+				if not frameOrden: continue
 				if not frameOrden.has_meta(_ItemTree): continue
 				
 				var ItemTreeFrame : TreeItem = frameOrden.get_meta(_ItemTree) as TreeItem
 				
 				if ItemTreeFrame:
-					
-					if before: ItemTreeFrame.move_before(before)
+					if before: before.move_before(ItemTreeFrame)
 					before = ItemTreeFrame
 				
 				
@@ -150,6 +151,8 @@ func _process(_delta:float) -> void:
 			)
 	FlxSprite.Sprites = FlxSprite.Sprites.filter(func(element): return element != null)
 	
+	MakeGhostButtom.disabled = SpriteSelect == null
+	
 	if SpriteSelect:
 		
 		SpriteUbication.custom_minimum_size = SpriteSelect.get_full_size()
@@ -162,17 +165,14 @@ func _process(_delta:float) -> void:
 		SpriteSelect.scale = Vector2.ONE * 0.75 * ScaledSprite * calc * SpriteSelect.get_full_size()/SpriteSelect.size
 		
 
-
-
-
-
-
-
-
 func MakeGhost():
-	pass
-
-
+	if SpriteGhost: 
+		SpriteGhost.queue_free()
+	if not SpriteSelect: return
+	SpriteGhost = SpriteSelect.duplicate()
+	
+	SpriteUbication.add_child(SpriteGhost)
+	SpriteGhost.alpha = 0.5
 
 func ItemSelect():
 	var ItemTree: TreeItem = TreeValue.get_selected()
@@ -183,8 +183,6 @@ func ItemSelect():
 			ChangeValue.disconnect(SpriteSelect.set)
 			ChangeValue.disconnect(SpriteSelect.get_meta(canon).set)
 			SpriteSelect.queue_free()
-		
-		
 		var FlxSpr : FlxSprite = ItemTree.get_meta(_FlxSpr) as FlxSprite
 		if not FlxSpr: return
 		

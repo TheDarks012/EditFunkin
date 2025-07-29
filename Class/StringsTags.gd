@@ -28,3 +28,18 @@ const file = {
 		}
 	}
 }
+
+
+
+class LoadingBar:
+	static func static_tr(message:StringName, context :StringName= &""):
+		return TranslationServer.tr(message, context)
+	
+	static var loading_path = static_tr("loading_path")
+	static var done = static_tr("done")
+	static var trimming_edges = static_tr("trimming_edges")
+	static var writing_to_xml = static_tr("writing_to_xml")
+	static var creating_image = static_tr("creating_image")
+	static var saving = static_tr("saving")
+	static var tidy = static_tr("tidy")
+	

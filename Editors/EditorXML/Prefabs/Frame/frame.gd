@@ -9,10 +9,7 @@ signal Destroying
 var cursor_position := Vector2()
 var Select = false;
 
-var Frames : Array = []
-
 static var panels_selection : Array[PanelFrame] = []
-
 
 @onready var Name = $name.Value
 @onready var placeholder = Control.new()
@@ -21,7 +18,6 @@ static var GridParent : GridContainer = null
 static var DragPanelFrame : PanelFrame = null
 static var selection_multiple : bool = false
 static var last_from : PanelFrame = null
-
 
 func onSelectionMoveFrame() -> void:
 	if DragPanelFrame: return
@@ -39,12 +35,10 @@ func onSelectionMoveFrame() -> void:
 	self.reparent(GuiGlobal)
 	DragPanelFrame = self
 	Select = true;
-	
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		Destroying.emit()
-
 
 func _on_select(toggled_on: bool, skipSelection : bool = false) -> void:
 	
@@ -100,7 +94,6 @@ func _on_select(toggled_on: bool, skipSelection : bool = false) -> void:
 				last_from = PanelFrame.panels_selection.back()
 	
 	$Check.set_pressed_no_signal.call_deferred(selection_multiple or toggled_on)
-
 
 func MoveToCursor() -> void:
 	
@@ -180,7 +173,6 @@ func _ready() -> void:
 	
 	$Name.text = name
 
-
 func update_size(isAnim:bool):
 	var sl : Vector2 = size
 	if isAnim and has_node("FlxAnimation"):
@@ -209,8 +201,7 @@ func _process(_delta:float):
 		position = get_global_mouse_position() - size * 0.5
 
 func OnRenamed():
-	
-	var strName : String = str(name)
+	var strName : String = str(name) if not flxSprite.has_meta("name") else flxSprite.get_meta("name")
 	
 	if flxSprite:
 		if flxSprite.animationOwner:
@@ -223,7 +214,8 @@ func OnRenamed():
 					continue
 				break
 			strName = strName.substr(finishedIdNumber, length)
-		flxSprite.name = strName
+		if not strName.is_empty():
+			flxSprite.name = strName
 	
 	
 	$Name.text = strName

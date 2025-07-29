@@ -2974,6 +2974,7 @@ follow_viewport_enabled = true
 title = "Open File(s)"
 initial_position = 2
 ok_button_text = "Open"
+cancel_button_text = "cancel"
 file_mode = 1
 access = 2
 filters = PackedStringArray("*.png", "*.xml")
@@ -2984,13 +2985,16 @@ auto_translate_mode = 1
 title = "Open a Directory"
 initial_position = 2
 ok_button_text = "Select Current Folder"
+cancel_button_text = "cancel"
 file_mode = 2
 access = 2
 use_native_dialog = true
 
 [node name="SaveFile" type="FileDialog" parent="GUI/Windows"]
 auto_translate_mode = 1
+title = "save_a_file"
 initial_position = 2
+cancel_button_text = "cancel"
 access = 2
 filters = PackedStringArray("*.png")
 use_native_dialog = true
@@ -3008,6 +3012,7 @@ size = Vector2i(788, 394)
 visible = false
 
 [node name="CreateAnimation" parent="GUI/Windows" instance=ExtResource("9_27jpw")]
+visible = false
 
 [node name="Splitter" type="VSplitContainer" parent="GUI"]
 anchors_preset = 15
@@ -3079,38 +3084,43 @@ size_flags_horizontal = 3
 theme_override_constants/h_separation = 0
 theme_override_font_sizes/font_size = 17
 
-[node name="File" type="PopupMenu" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Panel/HBoxContainer/MenuBar"]
+[node name="File" type="PopupMenu" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Panel/HBoxContainer/MenuBar" node_paths=PackedStringArray("LoadFiles", "SaveFiles", "SaveFile")]
 auto_translate_mode = 1
+title = "file"
 size = Vector2i(178, 116)
 theme = SubResource("Theme_e6ghh")
 item_count = 3
-item_0/text = "Files"
+item_0/text = "files"
 item_0/id = 0
 item_0/disabled = true
 item_0/separator = true
-item_1/text = "Import Frames"
+item_1/text = "import_frames"
 item_1/id = 1
-item_2/text = "Export Frames"
+item_2/text = "export_frames"
 item_2/id = 2
 script = ExtResource("2_r42pp")
+LoadFiles = NodePath("../../../../../../../../Windows/LoadFiles")
+SaveFiles = NodePath("../../../../../../../../Windows/SaveFiles")
+SaveFile = NodePath("../../../../../../../../Windows/SaveFile")
 
 [node name="View" type="PopupMenu" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Panel/HBoxContainer/MenuBar"]
 auto_translate_mode = 1
+title = "view"
 size = Vector2i(178, 116)
 item_count = 5
-item_0/text = "Antialiasing"
+item_0/text = "antialiasing"
 item_0/checkable = 1
 item_0/checked = true
 item_0/id = 0
-item_1/text = "Animations"
+item_1/text = "animations"
 item_1/id = 1
 item_1/disabled = true
 item_1/separator = true
-item_2/text = "View Animations"
+item_2/text = "view_animations"
 item_2/id = 2
-item_3/text = "View Structure XML"
+item_3/text = "view_structure_XML"
 item_3/id = 3
-item_4/text = "View Configuration"
+item_4/text = "view_configuration"
 item_4/id = 4
 script = ExtResource("2_syk4w")
 
@@ -3131,25 +3141,26 @@ metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
 [node name="Other" type="PopupMenu" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Panel/HBoxContainer/MenuBar"]
 auto_translate_mode = 1
+title = "other"
 size = Vector2i(178, 116)
 theme = SubResource("Theme_e6ghh")
 item_count = 4
-item_0/text = "Selection"
+item_0/text = "selection"
 item_0/id = 2
 item_0/separator = true
-item_1/text = "Clear Selections"
+item_1/text = "clear_selections"
 item_1/id = 0
-item_2/text = "Other"
+item_2/text = "other"
 item_2/id = 3
 item_2/separator = true
-item_3/text = "Exit"
+item_3/text = "exit"
 item_3/id = 1
 script = ExtResource("9_6r5so")
 
 [node name="Button" type="Button" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Panel/HBoxContainer"]
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_jdlev")
-text = "Generation XML"
+text = "generation_xml"
 
 [node name="Frame" type="Control" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer"]
 clip_contents = true
@@ -3209,8 +3220,7 @@ AreaMouse = NodePath("../../../Control")
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 focus_mode = 0
-text = "➕
-Add Frame"
+text = "add_frame"
 
 [node name="Control" type="Control" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame"]
 layout_mode = 1
@@ -3240,7 +3250,7 @@ script = ExtResource("10_dhsk0")
 [node name="Label" type="Label" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Options/Box/multi-selections"]
 layout_mode = 2
 size_flags_vertical = 1
-text = "Multi-Selections: "
+text = "multi_selections"
 vertical_alignment = 1
 
 [node name="CheckButton" type="CheckButton" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Options/Box/multi-selections"]
@@ -3251,14 +3261,14 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_27jpw")
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_g4g7r")
 disabled = true
-text = "Create Animation ➕"
+text = "create_animation"
 script = ExtResource("10_g4g7r")
 
 [node name="Delete Selections" type="Button" parent="GUI/Splitter/Main/AutoScaling/VBoxContainer/Options/Box"]
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_g4g7r")
 disabled = true
-text = "Delete Selections ✖"
+text = "delete_selections"
 script = ExtResource("11_y20ji")
 
 [node name="PanelAnimation" type="Control" parent="GUI/Splitter"]
@@ -3306,21 +3316,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LoadFiles" type="Node" parent="." node_paths=PackedStringArray("Value")]
-script = ExtResource("2_dw4xy")
-Value = NodePath("../GUI/Windows/LoadFiles")
-metadata/_custom_type_script = "uid://culj3b7b6vs7d"
-
-[node name="SaveFiles" type="Node" parent="." node_paths=PackedStringArray("Value")]
-script = ExtResource("2_dw4xy")
-Value = NodePath("../GUI/Windows/SaveFiles")
-metadata/_custom_type_script = "uid://culj3b7b6vs7d"
-
-[node name="SaveFile" type="Node" parent="." node_paths=PackedStringArray("Value")]
-script = ExtResource("2_dw4xy")
-Value = NodePath("../GUI/Windows/SaveFile")
-metadata/_custom_type_script = "uid://culj3b7b6vs7d"
-
 [node name="Frame" type="Node" parent="." node_paths=PackedStringArray("Value")]
 script = ExtResource("2_dw4xy")
 Value = NodePath("../GUI/Splitter/Main/AutoScaling/VBoxContainer/Frame")
@@ -3341,6 +3336,23 @@ metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 [node name="Splitter" type="Node" parent="." node_paths=PackedStringArray("Value")]
 script = ExtResource("2_dw4xy")
 Value = NodePath("../GUI/Splitter")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="Windows" type="Node" parent="."]
+
+[node name="LoadFiles" type="Node" parent="Windows" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../../GUI/Windows/LoadFiles")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="SaveFiles" type="Node" parent="Windows" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../../GUI/Windows/SaveFiles")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="SaveFile" type="Node" parent="Windows" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_dw4xy")
+Value = NodePath("../../GUI/Windows/SaveFile")
 metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
 [connection signal="files_selected" from="GUI/Windows/LoadFiles" to="." method="loadFiles"]

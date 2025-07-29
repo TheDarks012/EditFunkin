@@ -1,0 +1,54 @@
+keys,es,en
+add_frame,➕\nAñadir Frame,➕\nAdd Frame
+animations,Animaciones,Animations
+antialiasing,Suavizado,Antialiasing
+cancel,Cancelar,Cancel
+clear_selections,Limpiar Seleciones,Clear Selections
+config_antialiasing,Suavizado:,Antialiasing:
+config_display_scale,Escala de Interfaz (Beta):,Display Scale (Beta):
+config_extra_margin,Margen Extra (Beta):,Extra Margin (Beta):
+config_margin_between_frames,Margen Entre Frames:,Margin Between Frames:
+configurations,Configuracion,Configuration
+create,Crear,Create
+create_animation,Crear Animacion ➕,Create Animation ➕
+creating_image,Creando Imagen...,Creating Image...
+delete_selections,Eliminar Selecionados,Delete Selections ✖
+done,¡Hecho!,Done!
+exit,Salir,Exit
+export_frames,Exportar Frames,Export Frames
+file,Archivo,File
+files,Archivos,Files
+generation_xml,Generar XML,Generaction XML
+import_frames,Importar Frames,Import Frames
+loading_path,Cargando: %s,Loading: %s
+multi_selections,Multiples Seleciones:,Multiples Selections:
+open,Abrir,Open
+open_a_directory,Abrir Carpeta,Open a Directory
+open_files,Abrir Archivo(s),Open File(s)
+other,Otros,Other
+play_animation,Animador,Animator
+save,Guardar,Save
+save_a_file,Guardar Archivo,Save a File
+saving,Guardando%s,Saving%s
+select_folder,selecionar carpeta,Select Folder
+selection,Selecion,Selection
+separator_frame,- Imagen -,- Frame -
+separator_gui,- Interfaz de Usuario -,- GUI -
+structure_XML,Estructura XML,Structure XML
+tidy,Ordenado,Tidy
+trimming_edges,Recortando Bordes: %s,Trimming Edges: %s
+view,Vista,View
+view_animations,Ver Animaciones,View Animations
+view_configuration,Ver Configuracion,View Configuraction
+view_structure_XML,Ver Estructura XML,View Structure XML
+writing_to_xml,Escribiendo en el xml... %s,Writing to xml... %s
+label_description_windows_create_animation,Crea una animacion con un prefix,Create an animation with a prefix
+popup_create_animation,Crear Animacion,Create Animation
+animation,Animacion,Animation
+creation,Creacion,Creation
+play,Play,Play
+make_ghost,Hacer Transparente,Make Ghost
+create_animation_prefix_name,Prefix:,Prefix:
+label_description_windows_create_animation_selection,Crea una animacion con los Frames seleccionados,Create an animation with the selected Frames
+create_animation_name_animation,Nombre de la Animacion:,Animation name:
+config_language,Idioma:,Language:

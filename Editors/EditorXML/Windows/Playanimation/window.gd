@@ -39,7 +39,7 @@ func _ready() -> void:
 	
 
 
-func set_fps(new_text:String) -> void:
+func set_fps(new_text:int) -> void:
 	FlxAnimNode.FPS = int(new_text)
 
 func PlayAnimation(animName: String):

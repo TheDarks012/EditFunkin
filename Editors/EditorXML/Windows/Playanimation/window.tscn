@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjy81hjbnc807"]
+[gd_scene load_steps=6 format=3 uid="uid://cjy81hjbnc807"]
 
 [ext_resource type="Script" uid="uid://844708bxsr00" path="res://Editors/EditorXML/Windows/Playanimation/window.gd" id="1_pwba2"]
 [ext_resource type="Script" uid="uid://dgpinxpx3l7cu" path="res://Editors/EditorXML/Windows/Playanimation/Popup/creation.gd" id="2_ad7ch"]
 [ext_resource type="Script" uid="uid://culj3b7b6vs7d" path="res://Class/Value/ObjetValue.gd" id="3_6nfh2"]
 [ext_resource type="Script" uid="uid://l7l1rctoc7xl" path="res://Editors/EditorXML/Windows/Playanimation/scripts_extra/ScaledFlxAnimation.gd" id="4_kh383"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ey6b6"]
+
 [node name="PlayAnimation" type="Window"]
 auto_translate_mode = 1
-title = "Play Animation"
+title = "play_animation"
 initial_position = 1
 size = Vector2i(512, 512)
 always_on_top = true
@@ -56,11 +58,11 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Creation" type="PopupMenu" parent="CanvasLayer/Control/Container/Config/MenuBar"]
-title = "Creation"
+title = "creation"
 size = Vector2i(156, 100)
 always_on_top = true
 item_count = 1
-item_0/text = "Create Animation"
+item_0/text = "popup_create_animation"
 item_0/id = 0
 script = ExtResource("2_ad7ch")
 
@@ -106,7 +108,7 @@ metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
 [node name="Animation" type="PopupMenu" parent="CanvasLayer/Control/Container/Config/MenuBar"]
 auto_translate_mode = 1
-title = "Animation"
+title = "animation"
 size = Vector2i(156, 100)
 always_on_top = true
 
@@ -126,12 +128,12 @@ metadata/_edit_use_anchors_ = true
 [node name="Play" type="Button" parent="CanvasLayer/Control/Container/Panel/Container"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Play"
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ey6b6")
+text = "play"
 
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Control/Container/Panel/Container"]
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/Control/Container/Panel/Container"]
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "24 FPS"
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/Container"]
 clip_contents = true
@@ -171,4 +173,4 @@ metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 [connection signal="id_pressed" from="CanvasLayer/Control/Container/Config/MenuBar/Creation" to="CanvasLayer/Control/Container/Config/MenuBar/Creation" method="_id_pressed"]
 [connection signal="confirmed" from="CanvasLayer/Control/Container/Config/MenuBar/Creation/RemoveAnimation" to="." method="accept_remove_keyframes"]
 [connection signal="pressed" from="CanvasLayer/Control/Container/Panel/Container/Play" to="." method="_on_play_pressed"]
-[connection signal="text_changed" from="CanvasLayer/Control/Container/Panel/Container/LineEdit" to="." method="set_fps"]
+[connection signal="value_changed" from="CanvasLayer/Control/Container/Panel/Container/SpinBox" to="." method="set_fps"]

@@ -1,17 +1,17 @@
 extends PopupMenu
 
-const Options = {
-	ImpFrames = "Import Frames",
-	ExpFrames = "Export Frames",
+enum Options {
+	Files,
+	ImpFrames,
+	ExpFrames
 }
 
-@onready var LoadFiles : FileDialog = get_tree().current_scene.get_node("LoadFiles").Value
-@onready var SaveFiles : FileDialog = get_tree().current_scene.get_node("SaveFiles").Value
-@onready var SaveFile : FileDialog = get_tree().current_scene.get_node("SaveFile").Value
+@export var LoadFiles : FileDialog
+@export var SaveFiles : FileDialog
+@export var SaveFile : FileDialog
 
 func _id_pressed(id: int) -> void:
-	
-	if get_item_text(id) == Options.ImpFrames:
+	if id == Options.ImpFrames:
 		LoadFiles.show()
-	elif get_item_text(id) == Options.ExpFrames:
+	elif id == Options.ExpFrames:
 		SaveFiles.show()

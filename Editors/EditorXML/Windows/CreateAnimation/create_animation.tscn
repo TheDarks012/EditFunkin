@@ -5,11 +5,12 @@
 
 [node name="CreateAnimation" type="AcceptDialog"]
 auto_translate_mode = 1
-title = "Create Animation"
+title = "create_animation"
 initial_position = 1
 size = Vector2i(500, 110)
+visible = true
 always_on_top = true
-ok_button_text = "Create"
+ok_button_text = "create"
 script = ExtResource("1_anjha")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -23,20 +24,26 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Prefix" type="VBoxContainer" parent="CanvasLayer/Box"]
+visible = false
 layout_mode = 2
 
 [node name="Description" type="Label" parent="CanvasLayer/Box/Prefix"]
 layout_mode = 2
-text = "Crea una animacion con un prefix"
+size_flags_horizontal = 4
+size_flags_vertical = 1
+text = "label_description_windows_create_animation_prefix"
 
 [node name="prefix" type="HBoxContainer" parent="CanvasLayer/Box/Prefix"]
 layout_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="CanvasLayer/Box/Prefix/prefix"]
-custom_minimum_size = Vector2(125, 0)
+[node name="Control" type="Control" parent="CanvasLayer/Box/Prefix/prefix"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
-text = "prefix name:"
+
+[node name="Label" type="Label" parent="CanvasLayer/Box/Prefix/prefix"]
+layout_mode = 2
+text = "create_animation_prefix_name"
 horizontal_alignment = 1
 
 [node name="Edit" type="LineEdit" parent="CanvasLayer/Box/Prefix/prefix"]
@@ -50,16 +57,21 @@ layout_mode = 2
 
 [node name="Description" type="Label" parent="CanvasLayer/Box/Selection"]
 layout_mode = 2
-text = "Crea una animacion con los Frames Seleccionados"
+size_flags_horizontal = 4
+text = "label_description_windows_create_animation_selection"
 
 [node name="prefix" type="HBoxContainer" parent="CanvasLayer/Box/Selection"]
 layout_mode = 2
 metadata/_edit_use_anchors_ = true
 
+[node name="Control" type="Control" parent="CanvasLayer/Box/Selection/prefix"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
 [node name="Label" type="Label" parent="CanvasLayer/Box/Selection/prefix"]
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
-text = "animation name:"
+text = "create_animation_name_animation"
 horizontal_alignment = 1
 
 [node name="Edit" type="LineEdit" parent="CanvasLayer/Box/Selection/prefix"]

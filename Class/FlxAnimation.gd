@@ -54,7 +54,7 @@ func _ready() -> void:
 			if Frame.get_parent():
 				if Frame.get_parent().has_node(newName):
 					Frame.get_parent().get_node(newName).name = str(Frame.get_parent().get_node(newName).get_instance_id())
-			
+			Frame.set_meta("name", newName)
 			Frame.name = newName
 			
 			Frame.OnRenamed()
@@ -121,25 +121,24 @@ func _process(delta: float) -> void:
 	super(delta)
 	
 	if Frames.size() <= 0: return
+	var update_frame = func ():
+		frame += 1
+		if frame >= Frames.size():
+			frame = 1
+			FinishedAnimation.emit()
+	
 	
 	timeElapsed += delta
 	if timeElapsed >= 1.0/FPS:
 		timeElapsed = 0
-		
 		if frame <= 0:
 			StartAnimation.emit()
 		
-		if not Frames[frame]: return
-		if not Frames[frame] is PanelFrame: return
+		if not Frames[frame]:
+			return update_frame.call()
+		if not Frames[frame] is PanelFrame: 
+			return update_frame.call()
 		var Frame = Frames[frame].flxSprite
-		if not Frame: return
-		Frame = Frame as FlxSprite
+		if not Frame: return update_frame.call()
 		texture = Frame.texture
-		
-		#.duplicate() as AtlasTexture
-		#FlxSprite.CopyFrom(self, Frame)
-		
-		frame += 1
-		if frame >= Frames.size():
-			frame = 0
-			FinishedAnimation.emit()
+		update_frame.call()

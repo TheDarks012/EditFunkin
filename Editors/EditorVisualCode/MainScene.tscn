@@ -1,0 +1,123 @@
+[gd_scene load_steps=3 format=3 uid="uid://hy7x367j641b"]
+
+[ext_resource type="Script" uid="uid://f2cd8scudryl" path="res://Editors/EditorVisualCode/LuaApi.gd" id="1_o8ejp"]
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_o8ejp"]
+number_color = Color(0, 1, 0, 1)
+symbol_color = Color(1, 1, 1, 1)
+function_color = Color(1, 0.988235, 0, 1)
+member_variable_color = Color(1, 0, 0, 1)
+
+[node name="Node" type="Node"]
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="GUI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.241156, 0.241156, 0.241156, 1)
+
+[node name="HSplitContainer" type="HSplitContainer" parent="GUI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Codes" type="Panel" parent="GUI/Control/HSplitContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="GUI/Control/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="VisualCodePanel" type="Panel" parent="GUI/Control/HSplitContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorRect" type="ColorRect" parent="GUI/Control/HSplitContainer/HSplitContainer/VisualCodePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0962047, 0.0962048, 0.0962047, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GUI/Control/HSplitContainer/HSplitContainer/VisualCodePanel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="GUI/Control/HSplitContainer/HSplitContainer/VisualCodePanel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GraphEdit" type="GraphEdit" parent="GUI/Control/HSplitContainer/HSplitContainer/VisualCodePanel/ScrollContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scroll_offset = Vector2(-40, 0)
+
+[node name="GraphFrame" type="GraphFrame" parent="GUI/Control/HSplitContainer/HSplitContainer/VisualCodePanel/ScrollContainer/Control/GraphEdit"]
+layout_mode = 0
+offset_left = 156.0
+offset_top = 300.0
+offset_right = 266.0
+offset_bottom = 363.0
+mouse_filter = 1
+position_offset = Vector2(116, 300)
+title = "SetProperty"
+
+[node name="GraphNode" type="GraphNode" parent="GUI/Control/HSplitContainer/HSplitContainer/VisualCodePanel/ScrollContainer/Control/GraphEdit/GraphFrame"]
+layout_mode = 2
+offset_left = 18.0
+offset_top = 51.0
+offset_right = 116.0
+offset_bottom = 106.0
+title = "Value"
+
+[node name="CodeEdit" type="CodeEdit" parent="GUI/Control/HSplitContainer/HSplitContainer/VisualCodePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+wrap_mode = 1
+minimap_draw = true
+syntax_highlighter = SubResource("CodeHighlighter_o8ejp")
+draw_tabs = true
+gutters_draw_line_numbers = true
+auto_brace_completion_enabled = true
+script = ExtResource("1_o8ejp")
+
+[node name="History" type="Panel" parent="GUI/Control/HSplitContainer/HSplitContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2

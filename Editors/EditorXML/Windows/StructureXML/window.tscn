@@ -12,6 +12,7 @@ bg_color = Color(0.133333, 0.133333, 0.133333, 1)
 Panel/styles/panel = SubResource("StyleBoxFlat_ybkrl")
 
 [node name="Structure" type="Window"]
+title = "structure_XML"
 initial_position = 1
 size = Vector2i(1024, 512)
 script = ExtResource("1_of8my")
@@ -42,8 +43,7 @@ custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 theme = ExtResource("2_ybkrl")
 
-[node name="MenuBar" type="MenuBar" parent="CanvasLayer/Control/VBoxContainer/Panel"]
-visible = false
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,21 +51,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PopupMenu" type="PopupMenu" parent="CanvasLayer/Control/VBoxContainer/Panel/MenuBar"]
-
-[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/Panel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.008
-anchor_top = 0.114
-anchor_right = 0.125
-anchor_bottom = 1.0
-offset_left = -0.192
-offset_top = 0.00999975
-grow_vertical = 2
+[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/Panel/HBoxContainer"]
+layout_mode = 2
 theme = ExtResource("2_ybkrl")
 disabled = true
-text = "Make Ghost"
+text = "make_ghost"
+
+[node name="MenuBar" type="MenuBar" parent="CanvasLayer/Control/VBoxContainer/Panel/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="PopupMenu" type="PopupMenu" parent="CanvasLayer/Control/VBoxContainer/Panel/HBoxContainer/MenuBar"]
 
 [node name="Structure" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
 layout_mode = 2
@@ -201,10 +197,10 @@ metadata/_custom_type_script = "uid://bbamugjo6oknb"
 
 [node name="MakeGhost" type="Node" parent="." node_paths=PackedStringArray("Value")]
 script = ExtResource("2_qr1x6")
-Value = NodePath("../CanvasLayer/Control/VBoxContainer/Panel/Button")
+Value = NodePath("../CanvasLayer/Control/VBoxContainer/Panel/HBoxContainer/Button")
 metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
 [connection signal="close_requested" from="." to="." method="hide"]
-[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/Panel/Button" to="." method="MakeGhost"]
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/Panel/HBoxContainer/Button" to="." method="MakeGhost"]
 [connection signal="item_selected" from="CanvasLayer/Control/VBoxContainer/Structure/Panel/ScrollContainer/Tree" to="." method="ItemSelect"]
 [connection signal="value_changed" from="Attribute/Box/Value" to="Attribute/IntValue" method="set_value"]

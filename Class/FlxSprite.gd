@@ -148,53 +148,42 @@ static func create(X:int, Y:int, Width:int = 0, Height:int = 0):
 static func CutterBordes(Flx: FlxSprite) -> Dictionary:
 	var atlas : AtlasTexture = Flx.texture as AtlasTexture
 	var image : Image = atlas.atlas.get_meta("Image") as Image
-	var left : int = round(Flx.x)
-	var bottom : int = round(Flx.y)
+	var width_new = Flx.width
+	var height_new = Flx.height
 	
-	var right : int = round(Flx.width)
-	var top : int = round(Flx.height)
+	var right:int
+	var left:int=width_new
+	var top:int
+	var bottom:int=Flx.height
 	
-	var data = Rect2(
-		left, bottom, right, top
-	)
-	right = data.position.x
-	top = data.position.y
-	left = data.position.x+data.size.x
-	bottom = data.position.y+data.size.y
+	var offset_new:=Vector2(Flx.x, Flx.y)
 	
-	@warning_ignore("shadowed_variable")
-	for y in range(data.size.y):
-		var targetY = data.position.y + y
-		@warning_ignore("shadowed_variable")
-		for x in range(data.size.x):
-			var targetX = data.position.x + x
-			if image.get_pixel(targetX, targetY).a > 0:
-				if targetX < left: left = targetX
-				if targetX > right: right = targetX
+	for targetX:int in range(width_new): # starts in 0
+		for targetY:int in range(height_new): # starts in 0
+			if image.get_pixelv(Vector2(targetX, targetY) + offset_new).a > 0:
 				if targetY > top: top = targetY
 				if targetY < bottom: bottom = targetY
+				if targetX > right: right = targetX
+				if targetX < left: left = targetX
 	
-	right -= data.position.x - 1
-	top -= data.position.y - 1
-	
-	
-	var Width = right
-	var Height = top
+	width_new = right-left+1
+	height_new = top-bottom+1
 	
 	var DictData = {
-		x = left,
-		y = bottom,
-		width = Width,
-		height = Height,
-		frameX = Flx.frameX+data.position.x-left,
-		frameY = Flx.frameY+data.position.y-bottom,
+		x = offset_new.x+left,
+		y = offset_new.y+bottom,
+		width = width_new,
+		height = height_new,
+		frameX = Flx.frameX-left,
+		frameY = Flx.frameY-bottom,
 		frameWidth = max(Flx.width, Flx.frameWidth),
-		frameHeight = max(Flx.height, Flx.frameHeight),
+		frameHeight = max(Flx.height, Flx.frameHeight)
 	}
 	
 	var callable_deferred = func ():
 		if Flx:
 			for property in DictData: if Flx.has_node_and_resource(":"+property): Flx.set(property, DictData[property])
+	
 	callable_deferred.call_deferred()
 	
 	return DictData

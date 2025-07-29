@@ -19,28 +19,28 @@ func remove_id_animation(animName: String) -> String:
 	var i = animName.length() - 1
 	while i >= 0 and animName[i].is_valid_int():
 		i -= 1
+		
 	return animName.substr(0, i + 1)
 
 func _add(Frame: FlxSprite, isXML: bool = false, animName:String = ""):
+	var spriteName := "" if not Frame.has_meta("name") else str(Frame.get_meta("name"))
 	
-	var Inst = FramePreInstance.instantiate()
+	var Inst : PanelFrame = FramePreInstance.instantiate()
 	if Frame.get_parent(): Frame.get_parent().remove_child(Frame)
 	Inst.add_child(Frame)
 	Inst.move_child(Frame, 0)
 	Frame.custom_minimum_size = Vector2(100, 100)
 	
-	Inst.name = Frame.name
-	Inst.flxSprite = Frame
-	
 	if Inst.get_node("MoveClicker").tooltip_text.is_empty():
-		Inst.get_node("MoveClicker").tooltip_text = Frame.name
+		Inst.get_node("MoveClicker").tooltip_text = Frame.name if not Frame.has_meta("name") else Frame.get_meta("name")
 	
 	var flxsprite = Inst.get_node("FlxSprite") as ObjectValue
-	
 	flxsprite.Value = Frame
-	
+	Inst.flxSprite = Frame
 	#Frame.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	if animName.is_empty(): animName = remove_id_animation(Frame.name)
+	if animName.is_empty(): animName = remove_id_animation(spriteName)
+	
+	Inst.OnRenamed()
 	
 	if isXML:
 		var flxAnimation : FlxAnimation = null
@@ -55,7 +55,6 @@ func _add(Frame: FlxSprite, isXML: bool = false, animName:String = ""):
 			GlobalSignals.AddAnimation.emit(animName, flxAnimation)
 		else:
 			flxAnimation = ContainerFrames.get_node(animName + "/FlxAnimation")
-			GlobalSignals.UpdateAnimation.emit(animName, flxAnimation)
 		
 		var Name = animName + FlxSprite.animNameId(flxAnimation.Frames.size())
 		
@@ -63,6 +62,8 @@ func _add(Frame: FlxSprite, isXML: bool = false, animName:String = ""):
 		Frame.name = Name
 		
 		flxAnimation.AddFrame.emit(Inst)
+		GlobalSignals.UpdateAnimation.emit(animName, flxAnimation)
+		
 	else:
 		ContainerFrames.add_child(Inst)
 

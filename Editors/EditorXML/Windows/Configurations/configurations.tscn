@@ -7,7 +7,7 @@
 bg_color = Color(0.136826, 0.136826, 0.136826, 1)
 
 [node name="Configurations" type="Window"]
-title = "Configurations"
+title = "configurations"
 initial_position = 2
 size = Vector2i(512, 512)
 script = ExtResource("1_dytp7")
@@ -17,6 +17,11 @@ script = ExtResource("1_dytp7")
 [node name="display_scale" type="Node" parent="gui" node_paths=PackedStringArray("Value")]
 script = ExtResource("2_mihpw")
 Value = NodePath("../../CanvasLayer/Control/ScrollContainer/VBOX/gui/display_scale/HBOX")
+metadata/_custom_type_script = "uid://culj3b7b6vs7d"
+
+[node name="language" type="Node" parent="gui" node_paths=PackedStringArray("Value")]
+script = ExtResource("2_mihpw")
+Value = NodePath("../../CanvasLayer/Control/ScrollContainer/VBOX/gui/language/HBOX")
 metadata/_custom_type_script = "uid://culj3b7b6vs7d"
 
 [node name="frame" type="Node" parent="."]
@@ -78,7 +83,7 @@ layout_mode = 2
 
 [node name="gui_separator" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui"]
 layout_mode = 2
-text = "- GUI -"
+text = "separator_gui"
 horizontal_alignment = 1
 
 [node name="display_scale" type="Panel" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui"]
@@ -97,10 +102,37 @@ theme_override_constants/separation = 0
 [node name="Label" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui/display_scale/HBOX"]
 layout_mode = 2
 size_flags_vertical = 1
-text = "Display Scale (Beta):"
+text = "config_display_scale"
 vertical_alignment = 1
 
 [node name="MenuButton" type="MenuButton" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui/display_scale/HBOX"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i6dhn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_i6dhn")
+text = "100%"
+flat = false
+
+[node name="language" type="Panel" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="HBOX" type="HBoxContainer" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui/language"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui/language/HBOX"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "config_language"
+vertical_alignment = 1
+
+[node name="MenuButton" type="MenuButton" parent="CanvasLayer/Control/ScrollContainer/VBOX/gui/language/HBOX"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/pressed = SubResource("StyleBoxFlat_i6dhn")
@@ -113,7 +145,7 @@ layout_mode = 2
 
 [node name="frame_separator" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame"]
 layout_mode = 2
-text = "- Frame -"
+text = "separator_frame"
 horizontal_alignment = 1
 
 [node name="margin_between_frames" type="Panel" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame"]
@@ -132,7 +164,7 @@ theme_override_constants/separation = 0
 [node name="Label" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/margin_between_frames/HBOX"]
 layout_mode = 2
 size_flags_vertical = 1
-text = "Margin Between Frames:"
+text = "config_margin_between_frames"
 vertical_alignment = 1
 
 [node name="SpinBox" type="SpinBox" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/margin_between_frames/HBOX"]
@@ -158,7 +190,7 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/extra_margin/HBOX"]
 layout_mode = 2
 size_flags_vertical = 1
-text = "Extra Margin (Beta):"
+text = "config_extra_margin"
 vertical_alignment = 1
 
 [node name="SpinBox" type="SpinBox" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/extra_margin/HBOX"]
@@ -195,7 +227,7 @@ theme_override_constants/separation = 0
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-text = "Antialiasing:"
+text = "config_antialiasing"
 vertical_alignment = 1
 
 [node name="CheckBox" type="CheckBox" parent="CanvasLayer/Control/ScrollContainer/VBOX/frame/antialiasing/HBOX"]
@@ -209,6 +241,7 @@ layout_mode = 2
 
 [connection signal="close_requested" from="." to="." method="hide"]
 [connection signal="ready" from="gui/display_scale" to="." method="_on_display_scale_ready"]
+[connection signal="ready" from="gui/language" to="." method="_on_language_ready"]
 [connection signal="ready" from="frame/margin_between_frames" to="." method="_on_margin_between_frames_ready"]
 [connection signal="ready" from="frame/extra_margin" to="." method="_on_extra_margin_ready"]
 [connection signal="ready" from="frame/antialiasing" to="." method="_on_antialiasing_ready"]
